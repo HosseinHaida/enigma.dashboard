@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+@import './assets/fonts/iranyekan/font-face/fontiran.css';
+
+html,
+body {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+input:not([type='number']),
+textarea {
+  text-align: right;
+}
+
+::selection {
+  background: rgb(44, 70, 84);
+  color: whitesmoke;
+}
+
+* {
+  font-family: iranyekan, Verdana, sans-serif;
+}

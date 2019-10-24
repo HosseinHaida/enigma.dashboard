@@ -1,0 +1,33 @@
+.router-outlet {
+  position: relative;
+  width: 100%;
+  left: -3px;
+}
+
+.router-outlet.drawn {
+  left: 60px;
+  width: calc(100% - 60px);
+}
+
+@media only screen and (max-width: 580px) {
+  .overlay--show {
+    position: fixed;
+    margin-top: -75px;
+    padding-top: 75px;
+    width: 100vw;
+    height: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.582);
+  }
+  .router-outlet.drawn {
+    left: 0;
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 900px) and (max-width: 1050px) {
+  .router-outlet.drawn {
+    left: 130px;
+    width: calc(100% - 130px);
+  }
+}

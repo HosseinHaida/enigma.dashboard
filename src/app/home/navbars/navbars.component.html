@@ -1,0 +1,52 @@
+<nav class="side-navbar">
+  <div class="user-properties">
+    <div class="profile-photo"></div>
+    <div class="user">
+      <span class="welcome"> Welcome </span>
+      <span class="firstName">{{ firstName }}</span>
+      <span class="lastName">{{ lastName }}</span>
+    </div>
+  </div>
+  <hr />
+  <ul class="nav-links">
+    <li class="games-li">
+      <a routerLink="games" routerLinkActive="active-link">
+        <fa-icon class="games-icon" [icon]="faGames"></fa-icon>
+        <span>Games</span></a
+      >
+    </li>
+    <li class="missions-li">
+      <a routerLink="missions" routerLinkActive="active-link">
+        <fa-icon class="missions-icon" [icon]="faMissions"></fa-icon>
+        <span>Missions</span></a
+      >
+    </li>
+    <li class="challenges-li">
+      <a routerLink="challenges" routerLinkActive="active-link">
+        <fa-icon class="challenges-icon" [icon]="faChallenges"></fa-icon>
+        <span>Challenges</span>
+      </a>
+    </li>
+    <!-- <li class="users-li">
+      <a routerLink="users" routerLinkActive="active-link">
+        <fa-icon class="users-icon" [icon]="faUsers"></fa-icon>
+        <span>Users</span></a
+      >
+    </li>
+    <li class="stats-li">
+      <a routerLink="stats" routerLinkActive="active-link">
+        <fa-icon class="stats-icon" [icon]="faStats"></fa-icon>
+        <span>Statistics</span></a
+      >
+    </li> -->
+  </ul>
+</nav>
+
+<nav class="top-navbar">
+  <div class="menu-button-container">
+    <button class="btn btn-menu-bars" (click)="onSideBarClick()">
+      <fa-icon class="menu-bars" [icon]="faBars"></fa-icon>
+    </button>
+  </div>
+  <div class="user-info"><span class="full-name"></span></div>
+</nav>

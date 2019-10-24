@@ -1,0 +1,61 @@
+@import '../../scss/mixins';
+
+div.toolbar {
+  height: 81px;
+  // max-height: 95px;
+  > button {
+    @include btn(whitesmoke);
+    float: left;
+    width: 37.5px;
+    height: 37.5px;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+  > div.input-container {
+    width: 300px;
+    display: none;
+    position: absolute;
+    margin-top: 39px;
+    background-color: whitesmoke;
+    height: 41px;
+    > input {
+      float: left;
+      text-align: left;
+      width: 72%;
+      height: 38px;
+      padding: 0 7px;
+      outline: none;
+      border: 1px solid whitesmoke;
+      font-size: 15px;
+    }
+    > button.input-is-ok {
+      @include btn(transparent);
+      float: right;
+      width: 22%;
+      height: 40px;
+    }
+  }
+}
+div.editable-area {
+  text-align: left;
+  height: calc(100% - 81px);
+  width: 100%;
+  background-color: whitesmoke;
+  outline: none;
+  overflow-y: scroll;
+  padding-right: 1px;
+}
+
+@media only screen and (max-width: 358px) {
+  div.toolbar > div.input-container {
+    width: 225px;
+    > input {
+      width: 71%;
+    }
+    > button.input-is-ok {
+      width: 20%;
+      padding-left: 0;
+    }
+  }
+}

@@ -1,0 +1,123 @@
+@import '../scss/mixins';
+
+* {
+  font-family: Verdana, Geneva, sans-serif;
+}
+
+div.background {
+  min-width: 100vw;
+  height: 100vh;
+  // background: url('https://user-images.githubusercontent.com/18594048/48074239-c4375d80-e1f5-11e8-820a-10552df019c1.jpg') center center;
+  background-size: cover;
+}
+
+::selection {
+  background-color: rgb(72, 194, 72);
+}
+
+.login-form {
+  width: 270px;
+  height: 450px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  text-align: center;
+}
+
+.login-form > h4 {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(91, 216, 91, 0.438);
+  color: rgba(76, 197, 76, 0.904);
+}
+
+// .user-avatar {
+//   border-radius: 100%;
+//   background-color: black;
+//   margin: 35px 0 0 96px;
+//   width: 78px;
+//   height: 78px;
+//   background: url('https://cdn3.iconfinder.com/data/icons/flat-avatars-3/512/Flat_avatars_svg-05-512.png')
+//     top center;
+//   background-size: cover;
+// }
+
+.username-container {
+  margin-top: 40px;
+}
+
+.password-container {
+  margin-top: 15px;
+}
+
+.helper-text {
+  margin-top: 15px;
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(255, 60, 0, 0.87);
+  display: none;
+}
+
+//////////////////////////////////////////////////
+.helper-text.shown {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  display: block;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+//////////////////////////////////////////////////
+
+.login-button-container {
+  margin-top: 40px;
+}
+
+button.login-button {
+  @include btn(rgb(0, 0, 0));
+  border: 1px solid rgba(91, 216, 91, 0.438);
+  outline: rgb(72, 194, 72);
+  color: whitesmoke;
+  width: 100%;
+  height: 33px;
+  transition: 300ms;
+}
+
+button.login-button:hover,
+button.login-button:focus {
+  background-color: rgb(91, 216, 91);
+  color: black;
+}
+
+input {
+  outline: none;
+  text-align: center;
+  width: 100%;
+  border: 1px solid rgba(91, 216, 91, 0.438);
+  height: 30px;
+}
+
+input:focus {
+  border: 1px solid rgb(91, 216, 91);
+}

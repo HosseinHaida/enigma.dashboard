@@ -1,0 +1,331 @@
+@import '../../../scss/mixins';
+@import '../../../css/slider.css';
+
+$primary-border: 1.5px solid #73879c7c;
+
+button {
+  @include btn(none);
+  padding: 12px 8px;
+  color: whitesmoke;
+  border-radius: 3px;
+}
+
+form {
+  overflow-y: hidden;
+  margin-top: 75px;
+  padding-bottom: 25px;
+  > div.right-column,
+  > div.left-column {
+    float: right;
+    right: 10%;
+    position: relative;
+    > div.form-control-container {
+      margin-top: 15px;
+      > label,
+      > input {
+        border-bottom: $primary-border;
+        font-size: 15px;
+      }
+      > input {
+        width: 230px;
+        height: 29px;
+        padding: 0 8px;
+        outline: none;
+        border: none;
+        background-color: whitesmoke;
+        // clear border radius
+        border-radius: 0;
+        -webkit-appearance: none;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        -khtml-border-radius: 0;
+      }
+      input:disabled {
+        background-color: #73879c;
+        color: white;
+      }
+      > label {
+        border-left: none;
+        padding: 4px 15px 6px 15px;
+        margin-left: 3px;
+        display: block;
+        float: right;
+        width: 49px !important;
+      }
+      > .name,
+      > .name + label {
+        margin-top: 30px;
+      }
+    }
+  }
+  > div.right-column {
+    > div.photo-demo-container {
+      z-index: 0;
+      width: 250px;
+      position: relative;
+      padding: 18px 6px 6px 6px;
+      // box-shadow: 0 4px 7px rgba(0, 0, 0, 0.19), 0 3px 5px rgba(0, 0, 0, 0.23);
+      border: 1.5px dashed #73879c7c;
+      > div.form-control-container {
+        > input {
+          width: 140px;
+          margin-top: 20px;
+          height: 31px;
+          border: none;
+          background-color: whitesmoke;
+          padding: 0 8px;
+          outline: none;
+        }
+        > button.file-picker {
+          height: 31px;
+          width: 93px;
+          padding: 7.5px 15px;
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+          background-color: #73879c;
+        }
+        > input[type='file'] {
+          display: none;
+        }
+      }
+      > div.photo-demo {
+        margin: 0 auto;
+        background-position: center center;
+        background-size: cover;
+        width: 170px;
+        height: 170px;
+        // border: $primary-border;
+        box-shadow: 0 4px 7px rgba(0, 0, 0, 0.19), 0 3px 5px rgba(0, 0, 0, 0.23);
+        z-index: 1;
+      }
+      > fa-icon {
+        margin: 0;
+        position: absolute;
+        top: 40%;
+        color: rgba(0, 0, 0, 0.58);
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        font-size: 90px;
+      }
+    }
+  }
+  > div.left-column {
+    text-align: right;
+    margin-right: 45px;
+    > div.form-control-container {
+      > app-txt-editor {
+        display: block;
+        width: 450px;
+        // width: 500px;
+        height: 350px;
+        padding: 8px 9px 8px 8px;
+        margin-top: 25px;
+        border: 1.5px dashed #73879c7c;
+        // box-shadow: 0 4px 7px rgba(0, 0, 0, 0.19), 0 3px 5px rgba(0, 0, 0, 0.23);
+      }
+    }
+    > div.form-buttons-container {
+      margin-top: 35px;
+      > button {
+        padding: 12px 35px;
+        font-weight: bold;
+        width: 30%;
+        // box-shadow: 0 4px 7px rgba(0, 0, 0, 0.19), 0 3px 5px rgba(0, 0, 0, 0.23);
+        margin-bottom: 50px;
+      }
+      > button.button--cancel-button {
+        background-color: transparent;
+        border: 2px solid #e12d39;
+        color: #e12d39;
+        border-left: none;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        &:hover {
+          border-color: #ec7981;
+          background-color: #ec7981;
+          color: white;
+        }
+      }
+      > button.button--save-button {
+        background-color: transparent;
+        border: 2px solid #3cb878;
+        color: #3cb878;
+        border-right: none;
+        margin-right: 4px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        &:hover {
+          border-color: #8bdab1;
+          background-color: #8bdab1;
+          color: initial;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1225px) {
+  form > div.left-column {
+    width: 370px;
+    margin-top: 72px;
+    > div.txt-editor-container {
+      > app-txt-editor {
+        position: relative;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1225px) and (min-width: 900px) {
+  form > div.left-column > div.txt-editor-container {
+    > app-txt-editor {
+      // width: 552px;
+      // right: -50px;
+      width: 605px;
+      right: -35px;
+    }
+  }
+}
+
+@media only screen and (max-width: 1225px) and (min-width: 974px) {
+  form > div.left-column {
+    right: 8.1%;
+  }
+}
+
+@media only screen and (max-width: 973px) and (min-width: 921px) {
+  form {
+    > div.left-column {
+      right: 2.1%;
+    }
+    > div.right-column {
+      right: 4%;
+    }
+  }
+}
+
+@media only screen and (max-width: 920px) and (min-width: 766px) {
+  form > div.left-column > div.txt-editor-container > app-txt-editor {
+    width: 500px;
+    right: -72px;
+  }
+}
+
+@media only screen and (max-width: 920px) {
+  form {
+    > div.right-column > div.photo-demo-container {
+      padding-bottom: 10px;
+      width: 180px;
+      > fa-icon {
+        top: 35%;
+      }
+      > div.photo-demo {
+        width: 150px;
+        height: 150px;
+      }
+      > div.form-control-container {
+        // > input {
+        //   border-right: $primary-border;
+        // }
+        > button.file-picker {
+          width: 100%;
+        }
+      }
+    }
+    > div.left-column {
+      right: 8%;
+      margin-top: 80px;
+      > div.form-control-container {
+        > input {
+          width: 200px;
+        }
+      }
+      > div.txt-editor-container {
+        > app-txt-editor {
+          height: 300px;
+        }
+      }
+    }
+    > div.right-column {
+      > div.form-control-container,
+      > div.photo-demo-container > div.form-control-container {
+        width: 100%;
+        > input {
+          width: 162px;
+          height: 35px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 766px) {
+  form {
+    > div.right-column {
+      right: 40px;
+    }
+    > div.left-column {
+      margin-top: 15px;
+      margin-left: 75px;
+      margin-right: 15px;
+      > div.form-control-container {
+        > input {
+          height: 35px;
+        }
+        > label {
+          padding: 7.6px;
+        }
+        &.txt-editor-container > app-txt-editor {
+          max-width: 300px;
+          right: -50px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 435px) {
+  form > div.left-column {
+    right: 30px;
+    > div.form-control-container > span.span--slider-value {
+      margin-left: 45px;
+      top: -3px;
+      margin-right: 0;
+      margin-top: 5px;
+      width: 263px;
+      float: right;
+      display: block;
+      text-align: center;
+      border: $primary-border;
+      border-bottom: none;
+      & + label {
+        border-right: $primary-border;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 410px) {
+  form > div.right-column {
+    right: 16px;
+  }
+  form > div.left-column {
+    right: 10px;
+  }
+}
+
+@media only screen and (max-width: 340px) {
+  form > div.right-column {
+    right: 10px;
+  }
+  form > div.left-column {
+    right: -9px;
+  }
+  form > div.left-column > div.form-control-container > app-txt-editor {
+    border: none;
+    position: relative;
+    left: 61px;
+  }
+}

@@ -1,0 +1,82 @@
+<!-- Time picker for the filled challenge -->
+<div id="overlay" class="overlay">
+  <div>
+    <button class="time-picker-submit">ذخیره</button
+    ><button class="time-picker-cancel">لغو</button>
+  </div>
+  <!-- [(ngModel)]="dateObject" -->
+  <dp-date-picker
+    dir="rtl"
+    mode="daytime"
+    theme="dp-material"
+    [config]="datePickerConfig"
+    #timePicker
+  ></dp-date-picker>
+</div>
+<!-- End of time picker -->
+
+<div class="main-div">
+  <table>
+    <div class="header">
+      <tr>
+        <th *ngFor="let th of tableHeaders">{{ th }}</th>
+      </tr>
+      <tr>
+        <td>
+          <button class="create-new-button" (click)="onCreateNew()">+</button>
+        </td>
+        <td
+          *ngFor="
+            let tf of tableFilterTypes;
+            let whichHeader = index;
+            trackBy: trackByIndex
+          "
+        >
+          <div>
+            <input
+              type="text"
+              class="filter-box"
+              [(ngModel)]="tableFilterTypes[whichHeader]"
+              placeholder="Filter"
+            />
+          </div>
+        </td>
+        <td><fa-icon class="faImage" [icon]="faImage"></fa-icon></td>
+      </tr>
+    </div>
+
+    <div
+      class="body"
+      *ngFor="
+        let challenge of (challenges | filter: tableFilterTypes:arrayItemKeys)
+      "
+    >
+      <tr>
+        <td>
+          <button
+            *ngIf="challenge.isFilled"
+            class="edit"
+            (click)="onChallengeTimeSet(challenge.id)"
+          >
+            <fa-icon [icon]="faCalendar"></fa-icon>
+          </button>
+          <button class="delete" (click)="onChallengeDelete(challenge.id)">
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </button>
+        </td>
+        <td>{{ challenge.gameName }}</td>
+        <td>{{ challenge.progress }}</td>
+        <td>{{ challenge.slug }}</td>
+        <td
+          [style.backgroundImage]="'url(' + challenge.gamePhotoPath + ')'"
+        ></td>
+      </tr>
+    </div>
+
+    <div class="plus-btn-container">
+      <button class="create-plus-button" (click)="onCreateNew()">
+        <span>+</span>
+      </button>
+    </div>
+  </table>
+</div>

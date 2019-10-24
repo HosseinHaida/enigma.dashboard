@@ -1,0 +1,66 @@
+@import '../../scss/mixins';
+@import '../../css/table.css';
+
+button {
+  padding: 10px;
+  margin-left: 5px;
+  color: whitesmoke;
+  @include btn(white);
+}
+.time-picker-submit {
+  margin-left: 0;
+}
+.time-picker-cancel,
+.time-picker-submit {
+  color: initial;
+  margin-top: 60px;
+  width: 123px;
+}
+
+.overlay {
+  display: none;
+}
+
+.overlay.show {
+  display: block;
+  text-align: center;
+  position: fixed;
+  margin-top: -75px;
+  padding-top: 75px;
+  width: 100vw;
+  height: 100%;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, 0.685);
+}
+
+dp-date-picker {
+  margin-top: 4px;
+  z-index: 3;
+}
+
+td:nth-child(4) {
+  width: 119px;
+}
+
+td:nth-child(2),
+th:nth-child(2) {
+  width: 70px;
+}
+
+@media only screen and (max-width: 680px) {
+  th:nth-child(2),
+  td:nth-child(2) {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 520px) {
+  th:nth-child(3),
+  td:nth-child(3) {
+    display: none;
+  }
+
+  td:nth-child(4) {
+    width: 200px;
+  }
+}

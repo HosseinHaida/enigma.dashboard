@@ -1,0 +1,175 @@
+div.main-div {
+  /* for centering */
+  position: relative;
+  margin: 60px 25px 0 40px;
+}
+
+table {
+  position: relative;
+  left: 50%;
+  border-collapse: separate;
+}
+
+.header tr > td {
+  height: 40px;
+}
+
+.body:nth-child(odd) td {
+  background-color: #ffffff;
+}
+.body:nth-child(odd) td > button.edit {
+  background-color: #dddddd;
+  color: initial;
+}
+
+.header,
+.body,
+.plus-btn-container {
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.19), 0 3px 5px rgba(0, 0, 0, 0.23);
+  margin: 20px 0;
+  /* for centering */
+  position: relative;
+  left: -50%;
+}
+
+.body tr {
+  display: block;
+}
+
+/* .body:nth-child(odd) tr td {
+  background-color: whitesmoke;
+} */
+
+th {
+  background-color: #2a3f54;
+  color: whitesmoke;
+}
+
+td:first-child {
+  width: 70px;
+}
+td:nth-child(2),
+td:nth-child(3) {
+  max-width: 250px;
+  min-width: 115px;
+}
+td:nth-child(2) {
+  width: 250px;
+}
+td:nth-child(3) {
+  width: 115px;
+}
+/* the td for the image which is always the last one */
+td:last-child {
+  background-color: white;
+  width: 80px;
+  min-width: 80px;
+  height: 80px;
+  background-position: center center;
+  background-size: cover;
+}
+
+td,
+th {
+  font-size: 14px;
+  text-align: center;
+  padding: 8px;
+}
+
+input.filter-box {
+  width: 100px;
+  height: 20px;
+  padding: 0 6px;
+}
+
+fa-icon.faImage {
+  font-size: 30px;
+  color: #2a3f54;
+}
+
+tr:nth-child(odd) > td {
+  background-color: #dddddd;
+}
+
+button {
+  border-radius: 3px;
+}
+
+button.edit,
+button.delete {
+  width: 40px;
+  display: block;
+}
+
+button.edit {
+  color: white;
+  background-color: #5c5c5c;
+  margin-bottom: 2px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+button.delete {
+  background-color: #e23642;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+button.clone {
+  background-color: green;
+}
+
+button.create-new-button {
+  background-color: #64ce97;
+  font-weight: bold;
+  width: 50px;
+  padding-bottom: 5px;
+  margin: auto;
+  font-size: 24px;
+  color: initial;
+}
+
+button.create-plus-button {
+  box-shadow: 0 6px 10px #00000030, 0 5px 8px rgba(0, 0, 0, 0.23);
+  font-size: 50px;
+  line-height: 0.7em;
+  /* padding-bottom: 12px; */
+  background-color: #64ce97;
+  color: initial;
+  border-radius: 32.5px;
+  -webkit-border-radius: 32.5px;
+  -moz-border-radius: 32.5px;
+  width: 100%;
+  height: 45px;
+  float: right;
+  margin: 20px 0 50px 0;
+}
+
+@media only screen and (max-width: 580px) {
+  div.main-div {
+    margin: 60px 18px 0 20px;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  table > div.body tr td:nth-child(2) {
+    display: none;
+  }
+  table > div.body tr td:nth-child(3) {
+    width: 200px;
+  }
+
+  table > div.header tr > th:nth-child(2),
+  table > div.header tr > td:nth-child(2) {
+    display: none;
+  }
+  tr > th:nth-child(3) {
+    width: 200px;
+  }
+}
+
+@-moz-document url-prefix() {
+  button.create-plus-button > span {
+    top: -5px !important;
+  }
+}

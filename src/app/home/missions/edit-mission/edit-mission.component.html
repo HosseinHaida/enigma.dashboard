@@ -1,0 +1,81 @@
+<form [formGroup]="missionForm" (ngSubmit)="onSubmit()" *ngIf="initPermit">
+  <div class="right-column">
+    <div class="photo-demo-container">
+      <fa-icon [icon]="faCamera"></fa-icon>
+      <div
+        class="photo-demo"
+        id="photo-demo"
+        [ngStyle]="{
+          'background-image': 'url(' + missionForm.get('photoPath').value + ')'
+        }"
+      ></div>
+      <div class="form-control-container">
+        <input class="photo-path" type="text" formControlName="photoPath" />
+        <button
+          id="file-picker"
+          class="file-picker"
+          (click)="filePicker.click()"
+        >
+          انتخاب
+        </button>
+        <input type="file" #filePicker (change)="onFilePick($event)" />
+      </div>
+    </div>
+    <div *ngIf="!layout.isSmall" class="form-control-container">
+      <input
+        class="name"
+        type="text"
+        [formControlName]="!layout.isSmall ? 'name' : null"
+        rows="6"
+      />
+      <label> : نام</label>
+    </div>
+    <div *ngIf="!layout.isSmall" class="form-control-container">
+      <input type="text" [formControlName]="!layout.isSmall ? 'slug' : null" />
+      <label> : نامک</label>
+    </div>
+  </div>
+  <div class="left-column">
+    <!-- {1} 'name' input field for smaller screens -->
+    <div *ngIf="layout.isSmall" class="form-control-container">
+      <input
+        type="text"
+        [formControlName]="layout.isSmall ? 'name' : null"
+        rows="6"
+      />
+      <label> : نام</label>
+    </div>
+    <!-- End of {1} -->
+    <!-- {2} 'slug' input field for smaller screens -->
+    <div *ngIf="layout.isSmall" class="form-control-container">
+      <input type="text" [formControlName]="layout.isSmall ? 'slug' : null" />
+      <label> : نامک</label>
+    </div>
+    <!-- End of {2} -->
+    <div class="form-control-container key-container">
+      <input type="text" formControlName="key" /> <label> : کلید</label>
+    </div>
+    <div class="form-control-container">
+      <span class="span--slider-value">{{
+        missionForm.get('level').value
+      }}</span>
+      <label> : سطح</label> <input type="range" formControlName="level" />
+    </div>
+    <div class="form-control-container txt-editor-container">
+      <app-txt-editor formControlName="script"></app-txt-editor>
+    </div>
+    <!-- {3} form buttons -->
+    <div class="form-buttons-container">
+      <button
+        type="submit"
+        class="button--save-button"
+        [disabled]="missionForm.invalid"
+      >
+        ذخیره</button
+      ><button type="button" class="button--cancel-button" (click)="onCancel()">
+        لغو
+      </button>
+    </div>
+    <!-- End of {3} -->
+  </div>
+</form>

@@ -1,0 +1,13 @@
+@import '../../scss/mixins';
+@import '../../css/table.css';
+
+button {
+  padding: 10px;
+  margin-left: 5px;
+  color: whitesmoke;
+  @include btn(white);
+}
+
+.header tr > th:nth-child(2) {
+  width: 250px;
+}

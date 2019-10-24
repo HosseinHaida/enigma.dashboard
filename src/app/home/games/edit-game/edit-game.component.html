@@ -1,0 +1,162 @@
+<div class="form-container" *ngIf="initPermit">
+  <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
+    <div class="main-body-container">
+      <div class="save-cancel-container">
+        <button type="submit" class="save" [disabled]="gameForm.invalid">
+          ذخیره
+        </button>
+        <button type="button" class="cancel" (click)="onCancel()">لغو</button>
+      </div>
+      <div class="form-control-container">
+        <label for="userId">کاربر ID</label>
+        <div>
+          <input id="user-id" type="text" formControlName="userId" rows="6" />
+          <div class="line"></div>
+        </div>
+      </div>
+      <div class="form-control-container">
+        <label for="game-name">نام</label>
+        <div>
+          <textarea id="game-name" type="text" formControlName="name" rows="6">
+          </textarea>
+          <div class="line"></div>
+        </div>
+      </div>
+      <div class="form-control-container">
+        <label for="game-level">سطح</label>
+        <div>
+          <input id="game-level" type="range" formControlName="level" />
+        </div>
+        <span class="slider-value">{{ gameForm.get('level').value }}</span>
+      </div>
+      <div class="form-control-container">
+        <label for="players-no">بازیکنان</label>
+        <div>
+          <input
+            id="players-no"
+            type="range"
+            max="15"
+            formControlName="playersNo"
+          />
+        </div>
+        <span class="slider-value">{{ gameForm.get('playersNo').value }}</span>
+      </div>
+      <div class="form-control-container">
+        <label for="city">شهر</label>
+        <div>
+          <input id="city" type="text" formControlName="city" />
+          <div class="line"></div>
+        </div>
+      </div>
+      <div class="form-control-container">
+        <label for="region">منطقه</label>
+        <div>
+          <input id="region" type="text" formControlName="region" />
+          <div class="line"></div>
+        </div>
+      </div>
+      <div class="form-control-container">
+        <label for="cost">هزینه</label>
+        <div>
+          <input type="number" id="cost" formControlName="cost" />
+          <div class="line"></div>
+        </div>
+      </div>
+      <div class="form-control-container">
+        <label for="prize">جایزه</label>
+        <div>
+          <input type="number" id="prize" formControlName="prize" />
+          <div class="line"></div>
+        </div>
+      </div>
+      <div
+        class="photo-demo"
+        [ngStyle]="{
+          'background-image': 'url(' + gameForm.get('photoPath').value + ')'
+        }"
+      ></div>
+      <div class="form-control-container">
+        <label for="photo">تصویر</label>
+        <div>
+          <input id="photo" type="text" formControlName="photoPath" />
+          <div class="line"></div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <h4>مأموریت ها</h4>
+    <hr />
+    <div class="missions-container" formArrayName="missions">
+      <div
+        class="single-mission-container"
+        *ngFor="
+          let missionCtrl of gameForm.get('missions')['controls'];
+          let i = index
+        "
+        [formGroupName]="i"
+      >
+        <div class="form-control-container">
+          <select size="1" (change)="onSelectOption($event.target.value, i)">
+            <option value="default"> -- انتخاب کنید -- </option>
+            <option *ngFor="let mission of missions" value="{{ mission.id }}"
+              >{{ mission.name }}
+            </option>
+          </select>
+          <div class="line"></div>
+        </div>
+        <div id="mission-id"><input type="text" formControlName="id" /></div>
+        <div class="form-control-container">
+          <label for="mission-name">نام</label>
+          <div>
+            <input class="mission-name" type="text" formControlName="name" />
+          </div>
+        </div>
+        <div class="form-control-container">
+          <label for="mission-script">متن</label>
+          <div>
+            <textarea
+              class="mission-script"
+              type="text"
+              formControlName="script"
+            >
+            </textarea>
+          </div>
+        </div>
+        <div class="form-control-container">
+          <label for="mission-order">ترتیب</label>
+          <div>
+            <input id="mission-order" type="number" formControlName="order" />
+            <div class="line"></div>
+          </div>
+        </div>
+        <button
+          type="button"
+          (click)="onMissionDelete(i)"
+          class="x-button"
+          style="float: left;"
+        >
+          X
+        </button>
+        <button
+          type="button"
+          (click)="onMissionEdit(missionCtrl.controls.id.value)"
+          class="edit-mission-button"
+          style="float: left;"
+        >
+          ویرایش مأموریت
+        </button>
+        <br /><br />
+      </div>
+      <br />
+      <hr />
+      <button
+        class="add-mission-button"
+        type="button"
+        (click)="onMissionAdd()"
+        id=""
+      >
+        اضافه کردن مأموریت
+      </button>
+    </div>
+  </form>
+</div>

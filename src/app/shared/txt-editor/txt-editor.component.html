@@ -1,0 +1,48 @@
+<div class="toolbar">
+  <button type="button" (click)="onStyle('bold')">
+    <fa-icon [icon]="faBold"></fa-icon>
+  </button>
+  <button type="button" (click)="onStyle('underline')">
+    <fa-icon [icon]="faUnderline"></fa-icon>
+  </button>
+  <button type="button" (click)="onStyle('italic')">
+    <fa-icon [icon]="faItalic"></fa-icon>
+  </button>
+  <button type="button" (click)="onStyle('justifyLeft')">
+    <fa-icon [icon]="faAlignLeft"></fa-icon>
+  </button>
+  <button type="button" (click)="onStyle('justifyCenter')">
+    <fa-icon [icon]="faAlignCenter"></fa-icon>
+  </button>
+  <button type="button" (click)="onStyle('justifyRight')">
+    <fa-icon [icon]="faAlignRight"></fa-icon>
+  </button>
+  <!-- link attach button -->
+  <button type="button" (click)="onInputShow('createLink')">
+    <fa-icon [icon]="faLink"></fa-icon>
+  </button>
+  <!-- color attach button -->
+  <button type="button" (click)="onInputShow('backColor')">
+    <fa-icon [icon]="faPalette"></fa-icon>
+  </button>
+  <!-- input to be attached to the selected text -->
+  <div class="input-container" id="input-container">
+    <input
+      type="text"
+      id="unknownInputType"
+      name="unknownInputType"
+      [(ngModel)]="input"
+    />
+    <button type="button" class="input-is-ok" (click)="onInputAttach()">
+      Done
+    </button>
+  </div>
+</div>
+<div
+  name="script"
+  ngDefaultControl
+  class="editable-area"
+  [(ngModel)]="script"
+  (ngModelChange)="onScriptEdit()"
+  contenteditable="true"
+></div>

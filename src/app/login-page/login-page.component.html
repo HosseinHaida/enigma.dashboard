@@ -1,0 +1,21 @@
+<div class="background">
+  <div class="login-form-container">
+    <div class="login-form">
+      <!-- user avatar -->
+      <h4>Administrator Panel</h4>
+      <!-- <div class="user-avatar"></div> -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
+        <div class="username-container">
+          <input type="text" tabindex=1 formControlName="username" placeholder="نام کاربری">
+        </div>
+        <div class="password-container">
+          <input type="password" tabindex=2 formControlName="password" placeholder="رمز عبور">
+        </div>
+        <div class="helper-text"> Wrong! </div>
+        <div class="login-button-container">
+          <button tabindex=3 type="submit" class="login-button">Login</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

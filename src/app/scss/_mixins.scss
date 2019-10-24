@@ -1,0 +1,7 @@
+@mixin btn($backgroundColor) {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+  background-color: $backgroundColor;
+}

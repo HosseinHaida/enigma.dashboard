@@ -1,0 +1,13 @@
+@import '../../../scss/mixins';
+@import '../../../css/form.css';
+@import '../../../css/slider.css';
+
+button {
+  @include btn(none);
+  padding: 12px 8px;
+  color: whitesmoke;
+}
+
+#user-id {
+  text-align: left;
+}
