@@ -7,10 +7,12 @@ import { map } from 'rxjs/operators';
 
 import { GamesService } from './games.service';
 import { Mission } from '../models/mission.model';
+import { UserLogService } from './user-log.service';
 
 @Injectable()
 export class MissionsService {
-  connection = 'http://localhost:3000/missions';
+  // connection = 'http://localhost:3000/missions';
+  connection = 'https://enigma-ng.firebaseio.com/missions.json';
   missions: Mission[] = [];
   missionsUpdated = new Subject<Mission[]>();
   mission$: Observable<Mission[]>;
@@ -19,7 +21,8 @@ export class MissionsService {
     private gamesService: GamesService,
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userLogService: UserLogService
   ) {}
 
   pushMissions(missions: Mission[]) {
@@ -28,21 +31,23 @@ export class MissionsService {
   }
 
   getMissionsAPI() {
-    return this.http.get<Mission[]>(this.connection).pipe(
-      map(missionsData => {
-        return missionsData.map(mission => {
-          return {
-            id: mission.id,
-            level: mission.level,
-            name: mission.name,
-            photoPath: mission.photoPath,
-            slug: mission.slug,
-            script: mission.script,
-            key: mission.key
-          };
-        });
-      })
-    );
+    return this.http
+      .get<Mission[]>(this.connection + '?auth=' + this.userLogService.token)
+      .pipe(
+        map(missionsData => {
+          return missionsData.map(mission => {
+            return {
+              id: mission.id,
+              level: mission.level,
+              name: mission.name,
+              photoPath: mission.photoPath,
+              slug: mission.slug,
+              script: mission.script,
+              key: mission.key
+            };
+          });
+        })
+      );
   }
 
   getMissions() {

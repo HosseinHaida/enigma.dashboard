@@ -1,8 +1,7 @@
 interface Admin {
-  userName: string;
-  password: string;
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
-  number: string;
+  nationalId: string;
+  phoneNumber: string;
 }

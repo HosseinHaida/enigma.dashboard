@@ -3,20 +3,23 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Subject, Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Game } from '../models/game.model';
+import { UserLogService } from './user-log.service';
 
 @Injectable()
 export class GamesService {
-  connection = 'http://localhost:3000/games';
+  // connection = 'http://localhost:3000/games';
+  connection = 'https://enigma-ng.firebaseio.com/games.json';
   private games: Game[] = [];
   gamesUpdated = new Subject<Game[]>();
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userLogService: UserLogService
   ) {}
 
   pushGames(games: Game[]) {
@@ -25,25 +28,27 @@ export class GamesService {
   }
 
   getGamesAPI() {
-    return this.http.get<Game[]>(this.connection).pipe(
-      map(gamesData => {
-        return gamesData.map(game => {
-          return {
-            id: game.id,
-            userId: game.userId,
-            name: game.name,
-            level: game.level,
-            playersLimit: game.playersLimit,
-            city: game.city,
-            region: game.region,
-            cost: game.cost,
-            prize: game.prize,
-            missions: game.missions,
-            photoPath: game.photoPath
-          };
-        });
-      })
-    );
+    return this.http
+      .get<Game[]>(this.connection + '?auth=' + this.userLogService.token)
+      .pipe(
+        map(gamesData => {
+          return gamesData.map(game => {
+            return {
+              id: game.id,
+              userId: game.userId,
+              name: game.name,
+              level: game.level,
+              playersLimit: game.playersLimit,
+              city: game.city,
+              region: game.region,
+              cost: game.cost,
+              prize: game.prize,
+              missions: game.missions,
+              photoPath: game.photoPath
+            };
+          });
+        })
+      );
   }
 
   getGames() {

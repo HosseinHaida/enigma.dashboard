@@ -6,17 +6,20 @@ import { Subject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Challenge } from '../models/challenge.model';
+import { UserLogService } from './user-log.service';
 
 @Injectable()
 export class ChallengesService {
-  connection = 'http://localhost:3000/challenges';
+  // connection = 'http://localhost:3000/challenges';
+  connection = 'https://enigma-ng.firebaseio.com/challenges.json';
   private challenges: Challenge[] = [];
   challengesUpdated = new Subject<Challenge[]>();
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userLogService: UserLogService
   ) {}
 
   pushChallenges(challenges: Challenge[]) {
@@ -25,22 +28,24 @@ export class ChallengesService {
   }
 
   getChallengesAPI(): Observable<Challenge[]> {
-    return this.http.get<Challenge[]>(this.connection).pipe(
-      map(challengesData => {
-        return challengesData.map(challenge => {
-          return {
-            id: challenge.id,
-            gameId: challenge.gameId,
-            gameName: '', //  later gets value
-            gamePhotoPath: '', // later gets value
-            slug: challenge.slug,
-            progress: challenge.progress,
-            isFilled: challenge.isFilled,
-            startTime: challenge.startTime
-          };
-        });
-      })
-    );
+    return this.http
+      .get<Challenge[]>(this.connection + '?auth=' + this.userLogService.token)
+      .pipe(
+        map(challengesData => {
+          return challengesData.map(challenge => {
+            return {
+              id: challenge.id,
+              gameId: challenge.gameId,
+              gameName: '', //  later gets value
+              gamePhotoPath: '', // later gets value
+              slug: challenge.slug,
+              progress: challenge.progress,
+              isFilled: challenge.isFilled,
+              startTime: challenge.startTime
+            };
+          });
+        })
+      );
   }
 
   getChallenges() {

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
   private admin: Admin;
+  loginStatusGifSource: string;
 
   constructor(private userLogService: UserLogService, private router: Router) {}
 
@@ -19,24 +20,28 @@ export class LoginPageComponent implements OnInit {
       this.router.navigate(['/home']);
     }
     this.loginForm = new FormGroup({
-      username: new FormControl(null, Validators.required),
+      email: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required)
     });
     this.admin = this.userLogService.getAdmin();
+    this.userLogService.loginStatus.subscribe(status => {
+      this.loginStatusGifSource = 'assets/' + status + '.gif';
+    });
   }
 
   onSubmit(form: NgForm | FormGroup) {
-    const userName = form.value.username;
+    const email = form.value.email;
     const password = form.value.password;
     const helperText = document.getElementsByClassName('helper-text')[0];
-    if (userName === this.admin.userName && password === this.admin.password) {
-      helperText.classList.remove('shown');
-      this.userLogService.setUserLog(userName, password);
-    } else {
-      helperText.classList.add('shown');
-    }
-    setTimeout(() => {
-      helperText.classList.remove('shown');
-    }, 820);
+    this.userLogService.setUserLog(email, password);
+    // if (this.admin.idToken) {
+    //   helperText.classList.remove('shown');
+    //   this.userLogService.setUserLog(userName, password);
+    // } else {
+    //   helperText.classList.add('shown');
+    // }
+    // setTimeout(() => {
+    //   helperText.classList.remove('shown');
+    // }, 820);
   }
 }

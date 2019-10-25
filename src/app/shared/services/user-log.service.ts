@@ -1,28 +1,28 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class UserLogService {
   private admin: Admin = {
-    // userName: atob('SHVzc2VpbkhhaWRh'),
-    userName: 'hossein',
-    // password: atob('Z29vZ2xl'),
-    password: '12345678',
-    // firstName: atob('SHVzc2Vpbg=='),
-    firstName: 'hossein',
-    // lastName: atob('SGFpZGFyaQ=='),
-    lastName: 'heidari',
-    // email: atob('c3F1YW5kZXJuZXNzQGdtYWlsLmNvbQ=='),
-    email: 'squanderness@gmail.com',
-    // number: atob('MDkxMzQwNTY3NTc=')
-    number: '100'
+    email: '',
+    firstName: '',
+    lastName: '',
+    nationalId: '',
+    phoneNumber: ''
   };
-  token = false;
+  token: string;
+  loginStatus = new Subject<string>();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   isAuthenticated() {
-    return this.token;
+    if (this.token) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getAdmin() {
@@ -44,41 +44,52 @@ export class UserLogService {
         cookiesArray[0].indexOf('=') + 1,
         cookiesArray[0].length
       );
-
-      if (
-        // atob(username)
-        username === this.admin.userName &&
-        password === this.admin.password
-      ) {
-        this.token = true;
-      } else {
-        this.token = false;
-      }
     } else {
       this.router.navigate(['/login']);
     }
   }
 
-  setUserLog(username: string, password: string) {
-    const now = new Date();
-    let time = now.getTime();
-    time += 3600 * 1000;
-    now.setTime(time);
-    document.cookie =
-      'username=' +
-      btoa(username) +
-      '; expires=' +
-      now.toUTCString() +
-      '; path=/';
-    document.cookie =
-      'password=' +
-      btoa(password) +
-      '; expires=' +
-      now.toUTCString() +
-      '; path=/';
+  setUserLog(email: string, password: string) {
+    this.loginStatus.next('trying');
+    return this.http
+      .post(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDQzg-HPGZMTjU2G4ycrSYh2Kv9JNNFBd4',
+        {
+          email: email,
+          password: password,
+          returnSecureToken: true
+        }
+      )
+      .subscribe(
+        response => {
+          this.token = response.idToken;
+          this.loginStatus.next('successful');
 
-    this.token = true;
-    this.router.navigate(['/home/games']);
+          // Auto logout in 1 hour
+          setTimeout(() => {
+            this.token = null;
+            this.router.navigate(['/login']);
+          }, response.expiresIn * 1000);
+
+          // Navigate to home/games if valid creds
+          this.router.navigate(['/home/games']);
+        },
+        error => {
+          this.loginStatus.next('failure');
+          //   if (error.status !== 0) {
+          //     if (error.body.error.message) {
+          //       commit('invalidCreds', true);
+          //       commit('connectionFailed', false);
+          //     }
+          //   } else {
+          //     commit('connectionFailed', true);
+          //     commit('invalidCreds', false);
+          //   }
+          //   commit('loggingIn', false);
+        }
+      );
+
+    // this.token = true;
 
     // setTimeout(() => {
     //   document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
