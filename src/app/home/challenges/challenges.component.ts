@@ -9,6 +9,7 @@ import {
   faCalendar
 } from '@fortawesome/free-solid-svg-icons';
 import { DatePickerComponent } from 'ng2-jalali-date-picker';
+import * as moment from 'jalali-moment';
 
 @Component({
   selector: 'app-challenges',
@@ -30,6 +31,8 @@ export class ChallengesComponent implements OnInit {
   // for the Filter Pipe
   tableFilterTypes: string[] = ['', '', ''];
   arrayItemKeys: string[] = ['gameName', 'progress', 'slug'];
+
+  userSelectedTime: moment.Moment;
 
   @ViewChild('timePicker', { static: true }) timePicker: DatePickerComponent;
 
@@ -71,6 +74,23 @@ export class ChallengesComponent implements OnInit {
   onChallengeTimeSet() {
     document.getElementById('overlay').classList.add('show');
     this.timePicker.api.open();
+  }
+  onDatePickerCancel() {
+    document.getElementById('overlay').classList.remove('show');
+    this.timePicker.api.close();
+  }
+  onDatePickerSubmit() {
+    if (this.userSelectedTime) {
+      const now = moment(new Date());
+      if (now > this.userSelectedTime) {
+        alert('لطفا زمانی در آینده برای چالش انتخاب کنید.');
+      } else {
+        alert('ok !');
+        // this.challengesService.setDate(this.userSelectedTime);
+      }
+    } else {
+      alert('لطفا ابتدا یک زمان انتخاب کنید !');
+    }
   }
 
   onCreateNew() {

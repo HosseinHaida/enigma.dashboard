@@ -1,15 +1,24 @@
 <!-- Time picker for the filled challenge -->
-<div id="overlay" class="overlay">
+<div
+  id="overlay"
+  class="overlay"
+>
   <div>
-    <button class="time-picker-submit">ذخیره</button
-    ><button class="time-picker-cancel">لغو</button>
+    <button
+      class="time-picker-submit"
+      (click)="onDatePickerSubmit()"
+    >ذخیره</button><button
+      class="time-picker-cancel"
+      (click)="onDatePickerCancel()"
+    >لغو</button>
   </div>
   <!-- [(ngModel)]="dateObject" -->
   <dp-date-picker
-    dir="rtl"
+    dir="ltr"
     mode="daytime"
     theme="dp-material"
     [config]="datePickerConfig"
+    [(ngModel)]="userSelectedTime"
     #timePicker
   ></dp-date-picker>
 </div>
@@ -23,15 +32,16 @@
       </tr>
       <tr>
         <td>
-          <button class="create-new-button" (click)="onCreateNew()">+</button>
+          <button
+            class="create-new-button"
+            (click)="onCreateNew()"
+          >+</button>
         </td>
-        <td
-          *ngFor="
+        <td *ngFor="
             let tf of tableFilterTypes;
             let whichHeader = index;
             trackBy: trackByIndex
-          "
-        >
+          ">
           <div>
             <input
               type="text"
@@ -41,7 +51,12 @@
             />
           </div>
         </td>
-        <td><fa-icon class="faImage" [icon]="faImage"></fa-icon></td>
+        <td>
+          <fa-icon
+            class="faImage"
+            [icon]="faImage"
+          ></fa-icon>
+        </td>
       </tr>
     </div>
 
@@ -60,21 +75,25 @@
           >
             <fa-icon [icon]="faCalendar"></fa-icon>
           </button>
-          <button class="delete" (click)="onChallengeDelete(challenge.id)">
+          <button
+            class="delete"
+            (click)="onChallengeDelete(challenge.id)"
+          >
             <fa-icon [icon]="faTrash"></fa-icon>
           </button>
         </td>
         <td>{{ challenge.gameName }}</td>
         <td>{{ challenge.progress }}</td>
         <td>{{ challenge.slug }}</td>
-        <td
-          [style.backgroundImage]="'url(' + challenge.gamePhotoPath + ')'"
-        ></td>
+        <td [style.backgroundImage]="'url(' + challenge.gamePhotoPath + ')'"></td>
       </tr>
     </div>
 
     <div class="plus-btn-container">
-      <button class="create-plus-button" (click)="onCreateNew()">
+      <button
+        class="create-plus-button"
+        (click)="onCreateNew()"
+      >
         <span>+</span>
       </button>
     </div>
