@@ -1,7 +1,7 @@
 @import '../scss/mixins';
 
 * {
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: iranyekan, Verdana, sans-serif;
 }
 
 div.background {
@@ -12,7 +12,7 @@ div.background {
 }
 
 ::selection {
-  background-color: rgb(72, 194, 72);
+  background-color: #35469c;
 }
 
 .login-form {
@@ -29,8 +29,8 @@ div.background {
 
 .login-form > h4 {
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(91, 216, 91, 0.438);
-  color: rgba(76, 197, 76, 0.904);
+  border-bottom: 2px dashed #35469c;
+  color: #35469c;
 }
 
 // .user-avatar {
@@ -95,31 +95,34 @@ div.background {
 }
 
 button.login-button {
-  @include btn(rgb(0, 0, 0));
-  border: 1px solid rgba(91, 216, 91, 0.438);
-  outline: rgb(72, 194, 72);
-  color: whitesmoke;
+  @include btn(white);
+  border: 1px solid #35469c;
+  outline: #35469c;
+  color: #35469c;
   width: 100%;
   height: 33px;
   transition: 300ms;
+  font-size: 16px;
+  font-weight: bold;
+  padding-bottom: 5px;
 }
 
 button.login-button:hover,
 button.login-button:focus {
-  background-color: rgb(91, 216, 91);
-  color: black;
+  background-color: #35469c;
+  color: white;
 }
 
 input {
   outline: none;
   text-align: center;
   width: 100%;
-  border: 1px solid rgba(91, 216, 91, 0.438);
+  border: 1px solid #35469c38;
   height: 30px;
 }
 
 input:focus {
-  border: 1px solid rgb(91, 216, 91);
+  border: 1px solid #35469c;
 }
 
 .login-status-gif {

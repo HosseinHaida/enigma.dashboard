@@ -30,10 +30,11 @@
             tabindex=3
             type="submit"
             class="login-button"
-          >Login</button>
+          >ورود</button>
         </div>
       </form>
       <img
+        *ngIf="loginStatusGifSource"
         class="login-status-gif"
         [src]="loginStatusGifSource"
         alt=""

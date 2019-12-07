@@ -4,6 +4,12 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
+// Seting up Firebase
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+
 //  Resolvers
 import { MissionsResolver } from './shared/resolvers/missions.resolver';
 import { GamesResolver } from './shared/resolvers/games.resolver';
@@ -30,6 +36,7 @@ import { ResponsiveDesignService } from './shared/services/responsive-design.ser
 import { MissionsService } from './shared/services/missions.service';
 import { GamesService } from './shared/services/games.service';
 import { ChallengesService } from './shared/services/challenges.service';
+import { FirebaseStoreService } from './shared/services/firestore.service';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -78,7 +85,13 @@ import { DpDatePickerModule } from 'ng2-jalali-date-picker';
     FormsModule,
     HttpClientModule,
     LoadingBarHttpClientModule,
-    DpDatePickerModule
+    DpDatePickerModule,
+    AngularFireModule.initializeApp(
+      environment.firebaseConfig,
+      'enigma-ng-app'
+    ),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   providers: [
     UserLogService,
@@ -89,7 +102,8 @@ import { DpDatePickerModule } from 'ng2-jalali-date-picker';
     ResponsiveDesignService,
     ChallengesResolver,
     MissionsResolver,
-    GamesResolver
+    GamesResolver,
+    FirebaseStoreService
   ],
   bootstrap: [AppComponent]
 })

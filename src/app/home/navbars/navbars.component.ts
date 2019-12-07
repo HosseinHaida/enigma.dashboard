@@ -1,15 +1,15 @@
 import { ResponsiveDesignService } from '../../shared/services/responsive-design.service';
 import { UserLogService } from '../../shared/services/user-log.service';
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 // import { Subject } from 'rxjs';
 import {
   faBars,
-   faHome,
-    faDiceFive,
-     faPuzzlePiece,
-      faDice,
-        faUsers,
-          faChartPie
+  faHome,
+  faDiceFive,
+  faPuzzlePiece,
+  faDice,
+  faUsers,
+  faChartPie
 } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -18,7 +18,6 @@ import {
   styleUrls: ['./navbars.component.scss']
 })
 export class NavbarsComponent implements OnInit {
-
   /// icons
   faBars = faBars;
   faHome = faHome;
@@ -27,24 +26,31 @@ export class NavbarsComponent implements OnInit {
   faChallenges = faDice;
   faUsers = faUsers;
   faStats = faChartPie;
-  /// end of icons
 
   sideBar: Element;
-  private admin: Admin;
+  admin: Admin = {
+    displayName: '',
+    email: '',
+    photoURL: '',
+    uid: ''
+  };
   toggleSideBar = false;
-  screenSizeCaught = false;
-  screenWidth: number;
-  // layout: Layout;
-  firstName: string;
-  lastName: string;
 
-  constructor(private userLogService: UserLogService,
-              private responsiveDesignService: ResponsiveDesignService) { }
+  constructor(
+    private userLogService: UserLogService,
+    private responsiveDesignService: ResponsiveDesignService
+  ) {
+    this.userLogService.whoIsAdmin.subscribe(admin => {
+      this.admin = admin;
+      console.log(admin);
+    });
+    if (!this.admin.displayName) {
+      this.admin.displayName = localStorage.getItem('displayName');
+      this.admin.photoURL = localStorage.getItem('photoURL');
+    }
+  }
 
   ngOnInit() {
-    this.admin = this.userLogService.getAdmin();
-    this.firstName = this.admin.firstName;
-    this.lastName = this.admin.lastName;
     this.sideBar = document.getElementsByClassName('side-navbar')[0];
     // this.responsiveDesignService.onScreenResize.subscribe(
     //   (layout: Layout) => {
@@ -58,20 +64,17 @@ export class NavbarsComponent implements OnInit {
     // );
   }
 
+  onSignOut() {
+    this.userLogService.logout(0);
+  }
+
   onSideBarClick() {
     this.toggleSideBar = !this.toggleSideBar;
-    // if (!this.screenSizeCaught) {
-    //   this.responsiveDesignService.getScreenLayout();
-    //   // to execute only once
-    //   this.screenSizeCaught = true;
-    // }
     if (this.toggleSideBar) {
       this.sideBar.classList.add('shown');
     } else {
       this.sideBar.classList.remove('shown');
     }
-    this.responsiveDesignService
-      .onSideBarToggle
-        .next(this.toggleSideBar);
+    this.responsiveDesignService.onSideBarToggle.next(this.toggleSideBar);
   }
 }

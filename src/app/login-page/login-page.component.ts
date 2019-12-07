@@ -11,19 +11,18 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
   private admin: Admin;
-  loginStatusGifSource: string;
+  loginStatusGifSource: string = null;
 
   constructor(private userLogService: UserLogService, private router: Router) {}
 
   ngOnInit() {
     if (this.userLogService.isAuthenticated()) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home/games']);
     }
     this.loginForm = new FormGroup({
       email: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required)
     });
-    this.admin = this.userLogService.getAdmin();
     this.userLogService.loginStatus.subscribe(status => {
       this.loginStatusGifSource = 'assets/' + status + '.gif';
     });

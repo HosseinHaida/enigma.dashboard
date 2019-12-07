@@ -13,7 +13,7 @@ export class GamesResolver implements Resolve<Game[]> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<Game[]> {
+  ): Promise<Game[]> {
     return this.service.getGamesAPI();
   }
 }

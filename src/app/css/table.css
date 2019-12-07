@@ -26,7 +26,7 @@ table {
 .body,
 .plus-btn-container {
   box-shadow: 0 4px 7px rgba(0, 0, 0, 0.19), 0 3px 5px rgba(0, 0, 0, 0.23);
-  margin: 20px 0;
+  margin: 15px 0;
   /* for centering */
   position: relative;
   left: -50%;
@@ -61,10 +61,10 @@ td:nth-child(3) {
 }
 /* the td for the image which is always the last one */
 td:last-child {
-  background-color: white;
   width: 80px;
   min-width: 80px;
   height: 80px;
+  background-color: white !important;
   background-position: center center;
   background-size: cover;
 }

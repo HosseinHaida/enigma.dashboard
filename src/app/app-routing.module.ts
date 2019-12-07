@@ -46,7 +46,7 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home/games',
+    redirectTo: '/login',
     pathMatch: 'full'
   },
   { path: '**', component: PageNotFoundComponent }

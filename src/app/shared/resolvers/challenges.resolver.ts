@@ -13,7 +13,7 @@ export class ChallengesResolver implements Resolve<Challenge[]> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<Challenge[]> {
+  ): Promise<Challenge[]> {
     return this.service.getChallengesAPI();
   }
 }

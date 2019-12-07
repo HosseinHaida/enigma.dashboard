@@ -37,18 +37,18 @@ nav.side-navbar.shown + nav.top-navbar {
   > .profile-photo {
     margin: 30px 0 10px 11px;
     min-width: 60px;
-    min-height: 60px;
-    border-radius: 100%;
+    min-height: 75px;
     display: inline-block;
     vertical-align: middle;
-    background-color: rgb(73, 96, 121);
-    // background: url('../../assets/User.png') top center;
+    background-color: transparent;
     background-size: cover;
+    background-position: center;
   }
   > .user {
     line-height: 1.4em;
-    margin: 20px 0 0 12px;
-    font-size: 13px;
+    margin: 35px 0 0 12px;
+    font-size: 14px;
+    // font-weight: bold;
     vertical-align: middle;
     display: inline-block;
     color: white;
@@ -90,6 +90,19 @@ button.btn-menu-bars {
   font-size: 25px;
   @include btn(#ededed);
   border-bottom: 1px solid rgb(216, 216, 216);
+}
+
+button.signout-btn {
+  float: right;
+  margin-right: 20px;
+  height: 51px;
+  border: none;
+  width: 60px;
+  font-family: iranyekan;
+  cursor: pointer;
+  border-left: 2px solid #2a3f54;
+  // color: white;
+  padding-bottom: 6px;
 }
 
 fa-icon.menu-bars {

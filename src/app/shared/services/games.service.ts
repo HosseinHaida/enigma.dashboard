@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Game } from '../models/game.model';
 import { UserLogService } from './user-log.service';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @Injectable()
 export class GamesService {
@@ -19,7 +20,8 @@ export class GamesService {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private userLogService: UserLogService
+    private userLogService: UserLogService,
+    private db: AngularFireDatabase
   ) {}
 
   pushGames(games: Game[]) {
@@ -28,27 +30,31 @@ export class GamesService {
   }
 
   getGamesAPI() {
-    return this.http
-      .get<Game[]>(this.connection + '?auth=' + this.userLogService.token)
-      .pipe(
-        map(gamesData => {
-          return gamesData.map(game => {
-            return {
-              id: game.id,
-              userId: game.userId,
-              name: game.name,
-              level: game.level,
-              playersLimit: game.playersLimit,
-              city: game.city,
-              region: game.region,
-              cost: game.cost,
-              prize: game.prize,
-              missions: game.missions,
-              photoPath: game.photoPath
-            };
-          });
-        })
-      );
+    const gamesRef = this.db.database.ref('games');
+    return gamesRef.once('value').then(snapshot => {
+      return snapshot.val();
+    });
+    // return this.http
+    //   .get<Game[]>(this.connection + '?auth=' + this.userLogService.idToken)
+    //   .pipe(
+    //     map(gamesData => {
+    //       return gamesData.map(game => {
+    //         return {
+    //           id: game.id,
+    //           userId: game.userId,
+    //           name: game.name,
+    //           level: game.level,
+    //           playersLimit: game.playersLimit,
+    //           city: game.city,
+    //           region: game.region,
+    //           cost: game.cost,
+    //           prize: game.prize,
+    //           missions: game.missions,
+    //           photoPath: game.photoPath
+    //         };
+    //       });
+    //     })
+    //   );
   }
 
   getGames() {
@@ -86,34 +92,33 @@ export class GamesService {
   }
 
   addGame(newGame: Game) {
-    this.games.push(newGame);
-    // send a post request
-    this.http.post(this.connection, newGame).subscribe(
-      () => {
-        this.getGamesAPI().subscribe(games => {
-          this.games = games;
-          this.gamesUpdated.next([...this.games]);
-        });
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    // this.games.push(newGame);
+    // // send a post request
+    // this.http.post(this.connection, newGame).subscribe(
+    //   () => {
+    //     this.getGamesAPI().subscribe(games => {
+    //       this.games = games;
+    //       this.gamesUpdated.next([...this.games]);
+    //     });
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 
   updateGame(id: number, updatedGame: Game) {
-    // send a put request
-    this.http.put(this.connection + '/' + id, updatedGame).subscribe(
-      () => {
-        this.getGamesAPI().subscribe(games => {
-          this.games = games;
-          this.gamesUpdated.next([...this.games]);
-        });
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    // this.http.put(this.connection + '/' + id, updatedGame).subscribe(
+    //   () => {
+    //     this.getGamesAPI().subscribe(games => {
+    //       this.games = games;
+    //       this.gamesUpdated.next([...this.games]);
+    //     });
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 
   getGame(id: number) {

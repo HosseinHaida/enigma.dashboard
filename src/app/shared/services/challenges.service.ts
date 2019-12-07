@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 
 import { Challenge } from '../models/challenge.model';
 import { UserLogService } from './user-log.service';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @Injectable()
 export class ChallengesService {
@@ -19,7 +20,8 @@ export class ChallengesService {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private userLogService: UserLogService
+    private userLogService: UserLogService,
+    private db: AngularFireDatabase
   ) {}
 
   pushChallenges(challenges: Challenge[]) {
@@ -27,25 +29,31 @@ export class ChallengesService {
     console.log(this.challenges);
   }
 
-  getChallengesAPI(): Observable<Challenge[]> {
-    return this.http
-      .get<Challenge[]>(this.connection + '?auth=' + this.userLogService.token)
-      .pipe(
-        map(challengesData => {
-          return challengesData.map(challenge => {
-            return {
-              id: challenge.id,
-              gameId: challenge.gameId,
-              gameName: '', //  later gets value
-              gamePhotoPath: '', // later gets value
-              slug: challenge.slug,
-              progress: challenge.progress,
-              isFilled: challenge.isFilled,
-              startTime: challenge.startTime
-            };
-          });
-        })
-      );
+  getChallengesAPI() {
+    const challengesRef = this.db.database.ref('challenges');
+    return challengesRef.once('value').then(snapshot => {
+      return snapshot.val();
+    });
+    // return this.http
+    //   .get<Challenge[]>(
+    //     this.connection + '?auth=' + this.userLogService.idToken
+    //   )
+    //   .pipe(
+    //     map(challengesData => {
+    //       return challengesData.map(challenge => {
+    //         return {
+    //           id: challenge.id,
+    //           gameId: challenge.gameId,
+    //           gameName: '', //  later gets value
+    //           gamePhotoPath: '', // later gets value
+    //           slug: challenge.slug,
+    //           progress: challenge.progress,
+    //           isFilled: challenge.isFilled,
+    //           startTime: challenge.startTime
+    //         };
+    //       });
+    //     })
+    //   );
   }
 
   getChallenges() {
@@ -69,19 +77,19 @@ export class ChallengesService {
   }
 
   addChallenge(challenge) {
-    this.challenges.push(challenge);
-    // send a post request
-    this.http.post(this.connection, challenge).subscribe(
-      () => {
-        this.getChallengesAPI().subscribe(challenges => {
-          this.challenges = challenges;
-          this.challengesUpdated.next([...this.challenges]);
-        });
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    // this.challenges.push(challenge);
+    // // send a post request
+    // this.http.post(this.connection, challenge).subscribe(
+    //   () => {
+    //     this.getChallengesAPI().subscribe(challenges => {
+    //       this.challenges = challenges;
+    //       this.challengesUpdated.next([...this.challenges]);
+    //     });
+    //   },
+    //   error => {
+    //     console.log(error);
+    //   }
+    // );
   }
 
   // updateChallenge(id: number, newChallenge: Challenge) {

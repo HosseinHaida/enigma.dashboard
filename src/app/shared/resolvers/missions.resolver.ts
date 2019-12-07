@@ -6,6 +6,7 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot
 } from '@angular/router';
+import { DataSnapshot } from '@angular/fire/database/interfaces';
 
 export class MissionsResolver implements Resolve<Mission[]> {
   constructor(private service: MissionsService) {}
@@ -13,7 +14,7 @@ export class MissionsResolver implements Resolve<Mission[]> {
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<Mission[]> {
+  ): Promise<Mission[]> {
     return this.service.getMissionsAPI();
   }
 }

@@ -9,6 +9,8 @@ import { GamesService } from './games.service';
 import { Mission } from '../models/mission.model';
 import { UserLogService } from './user-log.service';
 
+import { AngularFireDatabase } from '@angular/fire/database';
+
 @Injectable()
 export class MissionsService {
   // connection = 'http://localhost:3000/missions';
@@ -22,7 +24,8 @@ export class MissionsService {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private userLogService: UserLogService
+    private userLogService: UserLogService,
+    private db: AngularFireDatabase
   ) {}
 
   pushMissions(missions: Mission[]) {
@@ -31,23 +34,29 @@ export class MissionsService {
   }
 
   getMissionsAPI() {
-    return this.http
-      .get<Mission[]>(this.connection + '?auth=' + this.userLogService.token)
-      .pipe(
-        map(missionsData => {
-          return missionsData.map(mission => {
-            return {
-              id: mission.id,
-              level: mission.level,
-              name: mission.name,
-              photoPath: mission.photoPath,
-              slug: mission.slug,
-              script: mission.script,
-              key: mission.key
-            };
-          });
-        })
-      );
+    ////////////////////////////
+    const missionsRef = this.db.database.ref('missions');
+    return missionsRef.once('value').then(snapshot => {
+      return snapshot.val();
+    });
+    ////////////////////////////
+    // return this.http
+    //   .get<Mission[]>(this.connection + '?auth=' + this.userLogService.idToken)
+    //   .pipe(
+    //     map(missionsData => {
+    //       return missionsData.map(mission => {
+    //         return {
+    //           id: mission.id,
+    //           level: mission.level,
+    //           name: mission.name,
+    //           photoPath: mission.photoPath,
+    //           slug: mission.slug,
+    //           script: mission.script,
+    //           key: mission.key
+    //         };
+    //       });
+    //     })
+    //   );
   }
 
   getMissions() {
@@ -84,34 +93,34 @@ export class MissionsService {
   }
 
   addMission(newMission: Mission) {
-    this.missions.push(newMission);
-    // send a post request
-    this.http.post(this.connection, newMission).subscribe(
-      () => {
-        this.getMissionsAPI().subscribe(missions => {
-          this.missions = missions;
-          this.missionsUpdated.next([...this.missions]);
-        });
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    //   this.missions.push(newMission);
+    //   // send a post request
+    //   this.http.post(this.connection, newMission).subscribe(
+    //     () => {
+    //       this.getMissionsAPI().then(missions => {
+    //         this.missions = missions;
+    //         this.missionsUpdated.next([...this.missions]);
+    //       });
+    //     },
+    //     error => {
+    //       console.log(error);
+    //     }
+    //   );
   }
 
   updateMission(id: number, updatedMission: Mission) {
-    // send a put request
-    this.http.put(this.connection + '/' + id, updatedMission).subscribe(
-      () => {
-        this.getMissionsAPI().subscribe(missions => {
-          this.missions = missions;
-          this.missionsUpdated.next([...this.missions]);
-        });
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    //   // send a put request
+    //   this.http.put(this.connection + '/' + id, updatedMission).subscribe(
+    //     () => {
+    //       this.getMissionsAPI().subscribe(missions => {
+    //         this.missions = missions;
+    //         this.missionsUpdated.next([...this.missions]);
+    //       });
+    //     },
+    //     error => {
+    //       console.log(error);
+    //     }
+    //   );
   }
 
   findMission(id: number): number {
