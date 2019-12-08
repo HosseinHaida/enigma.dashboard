@@ -4,14 +4,14 @@ import { UserLogService } from '../shared/services/user-log.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss']
+  selector: 'app-signup-page',
+  templateUrl: './signup-page.component.html',
+  styleUrls: ['./signup-page.component.scss']
 })
-export class LoginPageComponent implements OnInit {
-  loginForm: FormGroup;
+export class SignupPageComponent implements OnInit {
+  signupForm: FormGroup;
   private admin: Admin;
-  loginStatusGifSource: string = null;
+  signupStatusGifSource: string = null;
 
   constructor(private userLogService: UserLogService, private router: Router) { }
 
@@ -19,12 +19,16 @@ export class LoginPageComponent implements OnInit {
     if (this.userLogService.isAuthenticated()) {
       this.router.navigate(['/home/games']);
     }
-    this.loginForm = new FormGroup({
+    this.signupForm = new FormGroup({
+      displayName: new FormControl(null, Validators.required),
       email: new FormControl(null, Validators.required),
-      password: new FormControl(null, Validators.required)
+      password: new FormControl(null, Validators.required),
+      phoneNumber: new FormControl(null, Validators.required),
+      photoUrl: new FormControl(null, Validators.required)
     });
-    this.userLogService.loginStatus.subscribe(status => {
-      this.loginStatusGifSource = 'assets/' + status + '.gif';
+    this.userLogService.signupStatus.subscribe(status
+      => {
+      this.signupStatusGifSource = 'assets/' + status + '.gif';
     });
   }
 
@@ -33,5 +37,6 @@ export class LoginPageComponent implements OnInit {
     const password = form.value.password;
     // const helperText = document.getElementsByClassName('helper-text')[0];
     this.userLogService.setUserLog(email, password);
-  }
+  };
+
 }

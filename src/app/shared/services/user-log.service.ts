@@ -11,6 +11,7 @@ export class UserLogService {
   whoIsAdmin = new Subject<Admin>();
   idToken: string;
   loginStatus = new Subject<string>();
+  signupStatus = new Subject<string>();
   sessionTimeout;
   timestamp;
 
@@ -20,7 +21,7 @@ export class UserLogService {
 
   checkSignedUserStatusAndSignTheUnauthorizedOut() {
     const thisthis = this;
-    this.afa.auth.onAuthStateChanged(function(user) {
+    this.afa.auth.onAuthStateChanged(function (user) {
       if (user) {
         if (user.uid === localStorage.getItem('uid')) {
           // User is signed in.

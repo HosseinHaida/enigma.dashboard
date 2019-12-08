@@ -57,6 +57,7 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 // Jalali calendar date picker
 import { DpDatePickerModule } from 'ng2-jalali-date-picker';
+import { SignupPageComponent } from './signup-page/signup-page.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import { DpDatePickerModule } from 'ng2-jalali-date-picker';
     EditGameComponent,
     EditMissionComponent,
     CreateChallengeComponent,
-    TxtEditorComponent
+    TxtEditorComponent,
+    SignupPageComponent
   ],
   imports: [
     BrowserModule,
