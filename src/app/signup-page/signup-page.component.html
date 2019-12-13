@@ -1,17 +1,25 @@
 <div class="background">
-    <div class="login-form-container">
-        <div class="login-form">
+    <div class="signup-form-container">
+        <div class="signup-form">
             <!-- user avatar -->
-            <h4>Administrator Panel</h4>
+            <h3>ادمین جدید</h3>
             <!-- <div class="user-avatar"></div> -->
             <form
-                [formGroup]="loginForm"
-                (ngSubmit)="onSubmit(loginForm)"
+                [formGroup]="signupForm"
+                (ngSubmit)="onSubmit(signupForm)"
             >
+                <div class="display-name-container">
+                    <input
+                        type="text"
+                        tabindex=1
+                        formControlName="displayName"
+                        placeholder="نام به انگلیسی"
+                    >
+                </div>
                 <div class="username-container">
                     <input
-                        type="email"
-                        tabindex=1
+                        type="text"
+                        tabindex=2
                         formControlName="email"
                         placeholder="پست الکترونیک"
                     >
@@ -19,24 +27,47 @@
                 <div class="password-container">
                     <input
                         type="password"
-                        tabindex=2
+                        tabindex=3
                         formControlName="password"
                         placeholder="رمز عبور"
                     >
                 </div>
-                <div class="helper-text"> Wrong! </div>
-                <div class="login-button-container">
+                <div class="phone-number-container">
+                    <input
+                        type="text"
+                        tabindex=4
+                        formControlName="phoneNumber"
+                        placeholder="تلفن همراه"
+                    >
+                </div>
+                <div class="photo-url-container">
+                    <input
+                        type="url"
+                        tabindex=5
+                        formControlName="photoUrl"
+                        placeholder="آدرس عکس پروفایل"
+                    >
+                </div>
+                <!-- <div class="helper-text"> Wrong! </div> -->
+                <div class="signup-button-container">
                     <button
-                        tabindex=3
+                        tabindex=6
                         type="submit"
-                        class="login-button"
-                    >ورود</button>
+                        class="signup-button"
+                    >ذخیره</button>
+                    <button
+                        routerLink="/home/games"
+                        tabindex=6
+                        class="cancel-button"
+                    >
+                        بازگشت
+                    </button>
                 </div>
             </form>
             <img
-                *ngIf="loginStatusGifSource"
-                class="login-status-gif"
-                [src]="loginStatusGifSource"
+                *ngIf="signupStatusGifSource"
+                class="signup-status-gif"
+                [src]="signupStatusGifSource"
                 alt=""
             >
         </div>

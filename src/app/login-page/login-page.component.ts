@@ -24,7 +24,7 @@ export class LoginPageComponent implements OnInit {
       password: new FormControl(null, Validators.required)
     });
     this.userLogService.loginStatus.subscribe(status => {
-      this.loginStatusGifSource = 'assets/' + status + '.gif';
+      this.loginStatusGifSource = 'assets/' + status + '.gif'
     });
   }
 

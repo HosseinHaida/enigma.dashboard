@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 
 // Firebase imports
 import { AngularFireAuth } from '@angular/fire/auth';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class UserLogService {
@@ -15,7 +16,7 @@ export class UserLogService {
   sessionTimeout;
   timestamp;
 
-  constructor(private router: Router, private afa: AngularFireAuth) {
+  constructor(private router: Router, private afa: AngularFireAuth, private http: HttpClient) {
     this.checkSignedUserStatusAndSignTheUnauthorizedOut();
   }
 
@@ -72,6 +73,14 @@ export class UserLogService {
         this.loginStatus.next('failure');
         console.log('Can\'t log in!!');
       });
+  }
+
+  signNewUserUp(newAdmin: {}) {
+    this.signupStatus.next('trying');
+    return this.http.post('http://localhost:8000/api/admin/new', newAdmin).subscribe(res => {
+      console.log(res)
+    });
+    ;
   }
 
   setAuthStatusToLocalStorage(isAuthenticated: boolean) {

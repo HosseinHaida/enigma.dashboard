@@ -15,10 +15,13 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { LoginPageComponent } from './login-page/login-page.component';
 import { StatisticsComponent } from './home/statistics/statistics.component';
 import { UsersComponent } from './home/users/users.component';
+import { SignupPageComponent } from './signup-page/signup-page.component'
+
 import { AuthGuard } from './shared/services/auth-guard.service';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginPageComponent },
+  { path: 'signup', component: SignupPageComponent },
   {
     path: 'home',
     component: HomeComponent,
@@ -56,4 +59,4 @@ const appRoutes: Routes = [
   imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
