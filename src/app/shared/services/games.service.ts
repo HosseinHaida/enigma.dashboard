@@ -87,7 +87,7 @@ export class GamesService {
       }
     ).catch(
       error => {
-        console.log('Unable to remove mission !!')
+        console.log('Unable to remove game !!')
         console.log(error)
       }
     );

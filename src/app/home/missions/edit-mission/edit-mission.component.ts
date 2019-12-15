@@ -82,7 +82,7 @@ export class EditMissionComponent implements OnInit, AfterContentInit {
   async onSubmit() {
     await this.userLogService.checkSignedUserStatusAndSignTheUnauthorizedOut();
     const uid = this.userLogService.getAdminUid();
-    if (!uid) { alert('لطفا خارج شده و دوباره وارد سامانه شوید !'); return }
+    if (!uid || typeof (uid) === 'undefined') { alert('لطفا خارج شده و دوباره وارد سامانه شوید !'); return }
 
     const newMission = new Mission(
       this.editMode ? this.missionId : null,

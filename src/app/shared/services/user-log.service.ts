@@ -25,7 +25,7 @@ export class UserLogService {
     await this.afa.auth.onAuthStateChanged(function (user) {
       if (user) {
         try {
-          if (typeof (localStorage.getItem('uid'))) {
+          if (typeof (localStorage.getItem('uid')) !== 'string') {
             const message = 'Number uid detected !!'
             throw message;
           }
@@ -39,11 +39,11 @@ export class UserLogService {
               photoURL: user.photoURL,
               uid: user.uid
             }
-            if (localStorage.getItem('isAuthenticated') !== 'true') {
-              // window.location.reload();
-              localStorage.setItem('isAuthenticated', 'true')
-            };
+            const isAuthenticated = localStorage.getItem('isAuthenticated')
             thisthis.setAdmin(admin);
+            if (isAuthenticated !== 'true') {
+              window.location.reload();
+            };
           } else {
             // Not this user is signed in.
             console.log('Not this user!');

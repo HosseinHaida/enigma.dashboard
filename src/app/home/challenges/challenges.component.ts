@@ -41,7 +41,7 @@ export class ChallengesComponent implements OnInit {
     private gamesService: GamesService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.challenges = this.challengesService.getChallenges();
@@ -64,7 +64,7 @@ export class ChallengesComponent implements OnInit {
     return index;
   }
 
-  onChallengeDelete(id: number) {
+  onChallengeDelete(id: string) {
     const answer = confirm('Are you sure?');
     if (answer) {
       this.challengesService.deleteChallenge(id);
