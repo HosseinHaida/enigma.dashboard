@@ -1,13 +1,12 @@
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+// import { HttpClient } from '@angular/common/http';
 
 import { Subject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { GamesService } from './games.service';
 import { Mission } from '../models/mission.model';
-import { UserLogService } from './user-log.service';
+// import { UserLogService } from './user-log.service';
 
 import { AngularFireDatabase } from '@angular/fire/database';
 
@@ -21,12 +20,11 @@ export class MissionsService {
 
   constructor(
     private gamesService: GamesService,
-    private http: HttpClient,
+    // private http: HttpClient,
     private router: Router,
-    private route: ActivatedRoute,
-    private userLogService: UserLogService,
+    // private userLogService: UserLogService,
     private db: AngularFireDatabase
-  ) {}
+  ) { }
 
   pushMissions(missions: Mission[]) {
     this.missions = missions;
@@ -37,7 +35,10 @@ export class MissionsService {
     ////////////////////////////
     const missionsRef = this.db.database.ref('missions');
     return missionsRef.once('value').then(snapshot => {
-      return snapshot.val();
+      return Object.keys(snapshot.val()).map(function (missionNamedIndex) {
+        let mission = snapshot.val()[missionNamedIndex];
+        return mission
+      });
     });
     ////////////////////////////
     // return this.http
@@ -60,17 +61,31 @@ export class MissionsService {
   }
 
   getMissions() {
-    return [...this.missions];
+    return this.missions
   }
 
-  deleteMission(id: number) {
-    // Send a delete request to the backend
-    this.http.delete(this.connection + '/' + id).subscribe(() => {
-      const index = this.findMission(id);
-      this.missions.splice(index, 1);
-      this.missionsUpdated.next([...this.missions]);
-      this.gamesService.onMissionDeleted(id);
-    });
+  deleteMission(id: string) {
+    const missionsRef = this.db.database.ref('missions');
+    missionsRef.child(id).remove().then(
+      () => {
+        this.getMissionsAPI().then(missions => {
+          this.missions = missions;
+          this.missionsUpdated.next([...this.missions]);
+          this.gamesService.onMissionDeleted(id);
+        });
+      }
+    ).catch(
+      error => {
+        console.log('Unable to remove mission !!')
+        console.log(error)
+      }
+    );
+    // this.http.delete(this.connection + '/' + id).subscribe(() => {
+    //   const index = this.findMission(id);
+    //   this.missions.splice(index, 1);
+    //   this.missionsUpdated.next([...this.missions]);
+    //   this.gamesService.onMissionDeleted(id);
+    // });
   }
 
   isEmptyMissions() {
@@ -81,7 +96,7 @@ export class MissionsService {
     }
   }
 
-  getMission(id: number) {
+  getMission(id: string) {
     let index = -1;
     index = this.findMission(id);
     if (index === -1) {
@@ -93,6 +108,22 @@ export class MissionsService {
   }
 
   addMission(newMission: Mission) {
+    const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    newMission.id = id;
+    const missionsRef = this.db.database.ref('missions');
+    missionsRef.child(id).set(newMission).then(
+      () => {
+        this.getMissionsAPI().then(missions => {
+          this.missions = missions;
+          this.missionsUpdated.next([...this.missions]);
+        });
+      }
+    ).catch(
+      error => {
+        console.log('Unable to add new mission !!')
+        console.log(error)
+      }
+    );
     //   this.missions.push(newMission);
     //   // send a post request
     //   this.http.post(this.connection, newMission).subscribe(
@@ -108,7 +139,21 @@ export class MissionsService {
     //   );
   }
 
-  updateMission(id: number, updatedMission: Mission) {
+  updateMission(id: string, updatedMission: Mission) {
+    const missionsRef = this.db.database.ref('missions');
+    missionsRef.child(id).set(updatedMission).then(
+      () => {
+        this.getMissionsAPI().then(missions => {
+          this.missions = missions;
+          this.missionsUpdated.next([...this.missions]);
+        });
+      }
+    ).catch(
+      error => {
+        console.log('Unable to update mission !!')
+        console.log(error)
+      }
+    );
     //   // send a put request
     //   this.http.put(this.connection + '/' + id, updatedMission).subscribe(
     //     () => {
@@ -123,7 +168,7 @@ export class MissionsService {
     //   );
   }
 
-  findMission(id: number): number {
+  findMission(id: string): number {
     let index = -1;
     if (!this.isEmptyMissions()) {
       for (let i = 0; i < Object.keys(this.missions).length; i++) {

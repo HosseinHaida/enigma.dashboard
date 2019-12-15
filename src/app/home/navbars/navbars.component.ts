@@ -42,7 +42,6 @@ export class NavbarsComponent implements OnInit {
   ) {
     this.userLogService.whoIsAdmin.subscribe(admin => {
       this.admin = admin;
-      console.log(admin);
     });
     if (!this.admin.displayName) {
       this.admin.displayName = localStorage.getItem('displayName');
@@ -52,16 +51,6 @@ export class NavbarsComponent implements OnInit {
 
   ngOnInit() {
     this.sideBar = document.getElementsByClassName('side-navbar')[0];
-    // this.responsiveDesignService.onScreenResize.subscribe(
-    //   (layout: Layout) => {
-    //     this.layout = layout;
-    //     if (layout.isSmall || layout.isXSmall) {
-    //       this.sideBar.classList.add('on-small-screens');
-    //     } else {
-    //       this.sideBar.classList.remove('on-small-screens');
-    //     }
-    //   }
-    // );
   }
 
   onSignOut() {

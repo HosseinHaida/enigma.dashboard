@@ -29,9 +29,10 @@ export class LoginPageComponent implements OnInit {
   }
 
   onSubmit(form: NgForm | FormGroup) {
-    const email = form.value.email;
-    const password = form.value.password;
-    // const helperText = document.getElementsByClassName('helper-text')[0];
-    this.userLogService.setUserLog(email, password);
+    if (!this.loginForm.invalid) {
+      const email = form.value.email;
+      const password = form.value.password;
+      this.userLogService.setUserLog(email, password);
+    }
   }
 }

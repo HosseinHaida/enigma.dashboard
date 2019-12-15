@@ -2,8 +2,8 @@ import { ReferenceMission } from './reference-mission.model';
 
 export class Game {
   constructor(
-    public id: number,
-    public userId: string,
+    public id: string,
+    public uid: string,
     public name: string,
     public level: number,
     public playersLimit: number,
@@ -13,5 +13,5 @@ export class Game {
     public prize: string,
     public missions: ReferenceMission[],
     public photoPath: string
-  ) {}
+  ) { }
 }

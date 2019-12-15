@@ -13,34 +13,51 @@ export class UserLogService {
   idToken: string;
   loginStatus = new Subject<string>();
   signupStatus = new Subject<string>();
+  adminUid: string;
   sessionTimeout;
   timestamp;
 
   constructor(private router: Router, private afa: AngularFireAuth, private http: HttpClient) {
-    this.checkSignedUserStatusAndSignTheUnauthorizedOut();
   }
 
-  checkSignedUserStatusAndSignTheUnauthorizedOut() {
+  async checkSignedUserStatusAndSignTheUnauthorizedOut() {
     const thisthis = this;
-    this.afa.auth.onAuthStateChanged(function (user) {
+    await this.afa.auth.onAuthStateChanged(function (user) {
       if (user) {
-        if (user.uid === localStorage.getItem('uid')) {
-          // User is signed in.
-          console.log('Signed in.');
-          thisthis.setAuthStatusToLocalStorage(true);
-        } else {
-          // Not this user is signed in.
-          console.log('Not this user!');
-          thisthis.setAuthStatusToLocalStorage(false);
-          thisthis.logout(0);
-          thisthis.router.navigate(['/login']);
+        try {
+          if (typeof (localStorage.getItem('uid'))) {
+            const message = 'Number uid detected !!'
+            throw message;
+          }
+          const uid = atob(localStorage.getItem('uid'))
+          if (user.uid === uid) {
+            // User is signed in.
+            console.log('Granted !!');
+            const admin = {
+              displayName: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL,
+              uid: user.uid
+            }
+            if (localStorage.getItem('isAuthenticated') !== 'true') {
+              // window.location.reload();
+              localStorage.setItem('isAuthenticated', 'true')
+            };
+            thisthis.setAdmin(admin);
+          } else {
+            // Not this user is signed in.
+            console.log('Not this user!');
+            thisthis.logout(0);
+          }
+        } catch {
+          error => {
+            thisthis.logout(0)
+          }
         }
       } else {
         // No user is signed in.
         console.log('Not signed in!');
-        thisthis.setAuthStatusToLocalStorage(false);
         thisthis.logout(0);
-        thisthis.router.navigate(['/login']);
       }
     });
   }
@@ -60,7 +77,6 @@ export class UserLogService {
       .signInWithEmailAndPassword(email, password)
       .then(res => {
         this.loginStatus.next('successful');
-        this.setAuthStatusToLocalStorage(true);
         this.setAdmin({
           displayName: res.user.displayName,
           email: res.user.email,
@@ -78,21 +94,27 @@ export class UserLogService {
   signNewUserUp(newAdmin: {}) {
     this.signupStatus.next('trying');
     return this.http.post('http://localhost:8000/api/admin/new', newAdmin).subscribe(res => {
-      console.log(res)
-    });
+      this.signupStatus.next('successful');
+      this.router.navigate(['/home/games']);
+    },
+      error => {
+        this.signupStatus.next('failure')
+      });
     ;
-  }
-
-  setAuthStatusToLocalStorage(isAuthenticated: boolean) {
-    localStorage.setItem('isAuthenticated', String(isAuthenticated));
   }
 
   setAdmin(admin: Admin) {
     this.whoIsAdmin.next(admin);
+    this.adminUid = admin.uid;
+    localStorage.setItem('isAuthenticated', 'true');
     localStorage.setItem('displayName', admin.displayName);
     localStorage.setItem('email', admin.email);
     localStorage.setItem('photoURL', admin.photoURL);
-    localStorage.setItem('uid', admin.uid);
+    localStorage.setItem('uid', btoa(admin.uid));
+  }
+
+  getAdminUid() {
+    return this.adminUid;
   }
 
   async logout(timeout: number) {

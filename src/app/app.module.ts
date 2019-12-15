@@ -36,7 +36,6 @@ import { ResponsiveDesignService } from './shared/services/responsive-design.ser
 import { MissionsService } from './shared/services/missions.service';
 import { GamesService } from './shared/services/games.service';
 import { ChallengesService } from './shared/services/challenges.service';
-import { FirebaseStoreService } from './shared/services/firestore.service';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -104,9 +103,8 @@ import { SignupPageComponent } from './signup-page/signup-page.component';
     ResponsiveDesignService,
     ChallengesResolver,
     MissionsResolver,
-    GamesResolver,
-    FirebaseStoreService
+    GamesResolver
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

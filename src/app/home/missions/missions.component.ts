@@ -26,7 +26,7 @@ export class MissionsComponent implements OnInit {
     private missionsService: MissionsService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.missions = this.missionsService.getMissions();
@@ -49,7 +49,7 @@ export class MissionsComponent implements OnInit {
     this.router.navigate(['edit'], { relativeTo: this.route });
   }
 
-  onMissionDelete(id: number) {
+  onMissionDelete(id: string) {
     const answer = confirm('Are you sure?');
     if (answer) {
       this.missionsService.deleteMission(id);

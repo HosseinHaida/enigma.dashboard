@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Game } from '../models/game.model';
 import { UserLogService } from './user-log.service';
 import { AngularFireDatabase } from '@angular/fire/database';
@@ -22,7 +21,7 @@ export class GamesService {
     private route: ActivatedRoute,
     private userLogService: UserLogService,
     private db: AngularFireDatabase
-  ) {}
+  ) { }
 
   pushGames(games: Game[]) {
     this.games = games;
@@ -32,7 +31,10 @@ export class GamesService {
   getGamesAPI() {
     const gamesRef = this.db.database.ref('games');
     return gamesRef.once('value').then(snapshot => {
-      return snapshot.val();
+      return Object.keys(snapshot.val()).map(function (gameNamedIndex) {
+        let game = snapshot.val()[gameNamedIndex];
+        return game
+      });
     });
     // return this.http
     //   .get<Game[]>(this.connection + '?auth=' + this.userLogService.idToken)
@@ -61,7 +63,7 @@ export class GamesService {
     return [...this.games];
   }
 
-  onMissionDeleted(id: number) {
+  onMissionDeleted(id: string) {
     this.games.forEach(game => {
       const missionsLength = game.missions.length;
       game.missions = game.missions.filter(
@@ -74,13 +76,26 @@ export class GamesService {
     this.gamesUpdated.next([...this.games]);
   }
 
-  deleteGame(id: number) {
-    // Send a delete request
-    this.http.delete(this.connection + '/' + id).subscribe(() => {
-      const index = this.findGame(id);
-      this.games.splice(index, 1);
-      this.gamesUpdated.next([...this.games]);
-    });
+  deleteGame(id: string) {
+    const gamesRef = this.db.database.ref('games');
+    gamesRef.child(id).remove().then(
+      () => {
+        this.getGamesAPI().then(games => {
+          this.games = games;
+          this.gamesUpdated.next([...this.games]);
+        });
+      }
+    ).catch(
+      error => {
+        console.log('Unable to remove mission !!')
+        console.log(error)
+      }
+    );
+    //   this.http.delete(this.connection + '/' + id).subscribe(() => {
+    //     const index = this.findGame(id);
+    //     this.games.splice(index, 1);
+    //     this.gamesUpdated.next([...this.games]);
+    // });
   }
 
   isEmptyGames() {
@@ -92,6 +107,22 @@ export class GamesService {
   }
 
   addGame(newGame: Game) {
+    const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    newGame.id = id;
+    const gamesRef = this.db.database.ref('games');
+    gamesRef.child(id).set(newGame).then(
+      () => {
+        this.getGamesAPI().then(games => {
+          this.games = games;
+          this.gamesUpdated.next([...this.games]);
+        });
+      }
+    ).catch(
+      error => {
+        console.log('Unable to add new game !!')
+        console.log(error)
+      }
+    );
     // this.games.push(newGame);
     // // send a post request
     // this.http.post(this.connection, newGame).subscribe(
@@ -107,7 +138,21 @@ export class GamesService {
     // );
   }
 
-  updateGame(id: number, updatedGame: Game) {
+  updateGame(id: string, updatedGame: Game) {
+    const gamesRef = this.db.database.ref('games');
+    gamesRef.child(id).set(updatedGame).then(
+      () => {
+        this.getGamesAPI().then(games => {
+          this.games = games;
+          this.gamesUpdated.next([...this.games]);
+        });
+      }
+    ).catch(
+      error => {
+        console.log('Unable to update game !!')
+        console.log(error)
+      }
+    );
     // this.http.put(this.connection + '/' + id, updatedGame).subscribe(
     //   () => {
     //     this.getGamesAPI().subscribe(games => {
@@ -121,7 +166,7 @@ export class GamesService {
     // );
   }
 
-  getGame(id: number) {
+  getGame(id: string) {
     let index = -1;
     index = this.findGame(id);
     if (index === -1) {
@@ -132,7 +177,7 @@ export class GamesService {
     }
   }
 
-  findGame(id: number): number {
+  findGame(id: string): number {
     let index = -1;
     if (!this.isEmptyGames()) {
       for (let i = 0; i < Object.keys(this.games).length; i++) {

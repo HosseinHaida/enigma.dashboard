@@ -6,6 +6,7 @@ import { ResponsiveDesignService } from '../../../shared/services/responsive-des
 import { Mission } from './../../../shared/models/mission.model';
 import { MissionsService } from '../../../shared/services/missions.service';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { UserLogService } from 'src/app/shared/services/user-log.service';
 
 @Component({
   selector: 'app-edit-mission',
@@ -15,25 +16,27 @@ import { faCamera } from '@fortawesome/free-solid-svg-icons';
 export class EditMissionComponent implements OnInit, AfterContentInit {
   faCamera = faCamera;
 
-  missionId: number;
+  missionId: string;
   missionForm: FormGroup;
   editMode: boolean;
   initPermit = false;
   mission: Mission;
   layout: Layout;
   script: any;
+  uid: string;
 
   constructor(
     private route: ActivatedRoute,
     private missionsService: MissionsService,
     private router: Router,
-    private responsiveDesignService: ResponsiveDesignService
-  ) {}
+    private responsiveDesignService: ResponsiveDesignService,
+    private userLogService: UserLogService
+  ) { }
 
   ngOnInit() {
     //  Get id from URL
     this.route.params.subscribe((params: Params) => {
-      this.missionId = Number(params['id']);
+      this.missionId = params['id'];
       this.editMode = params['id'] != null;
       this.initPermit = true;
       this.initForm();
@@ -76,9 +79,14 @@ export class EditMissionComponent implements OnInit, AfterContentInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
+    await this.userLogService.checkSignedUserStatusAndSignTheUnauthorizedOut();
+    const uid = this.userLogService.getAdminUid();
+    if (!uid) { alert('لطفا خارج شده و دوباره وارد سامانه شوید !'); return }
+
     const newMission = new Mission(
       this.editMode ? this.missionId : null,
+      uid,
       this.missionForm.value['level'],
       this.missionForm.value['name'],
       this.missionForm.value['photoPath'],

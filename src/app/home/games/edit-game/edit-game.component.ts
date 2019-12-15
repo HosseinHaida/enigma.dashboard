@@ -8,6 +8,7 @@ import { ReferenceMission } from '../../../shared/models/reference-mission.model
 import { MissionsService } from '../../../shared/services/missions.service';
 import { GamesService } from '../../../shared/services/games.service';
 import { NoTagsPipe } from 'src/app/shared/pipes/no-tags.pipe';
+import { UserLogService } from 'src/app/shared/services/user-log.service';
 
 @Component({
   selector: 'app-edit-game',
@@ -18,7 +19,7 @@ export class EditGameComponent implements OnInit {
   editMode: boolean;
   initPermit = false;
   gameForm: FormGroup;
-  gameId: number;
+  gameId: string;
   game: Game;
   missions: Mission[];
   noTagsPipe: NoTagsPipe;
@@ -27,8 +28,9 @@ export class EditGameComponent implements OnInit {
     private gamesService: GamesService,
     private missionsService: MissionsService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private userLogService: UserLogService
+  ) { }
 
   ngOnInit() {
     //  Get missions
@@ -38,7 +40,7 @@ export class EditGameComponent implements OnInit {
     });
     //  Get id from URL
     this.route.params.subscribe((params: Params) => {
-      this.gameId = Number(params['id']);
+      this.gameId = params['id'];
       this.editMode = params['id'] != null;
       this.initPermit = true;
       this.initForm();
@@ -46,7 +48,7 @@ export class EditGameComponent implements OnInit {
   }
 
   private initForm() {
-    let userId = '',
+    let uid = '',
       name = '',
       level = 1,
       playersLimit = 1,
@@ -62,7 +64,7 @@ export class EditGameComponent implements OnInit {
       this.noTagsPipe = new NoTagsPipe();
 
       this.game = this.gamesService.getGame(this.gameId);
-      userId = this.game.userId;
+      uid = this.game.uid;
       name = this.game.name;
       level = this.game.level;
       playersLimit = this.game.playersLimit;
@@ -89,7 +91,6 @@ export class EditGameComponent implements OnInit {
     }
 
     this.gameForm = new FormGroup({
-      userId: new FormControl(userId, Validators.required),
       name: new FormControl(name, Validators.required),
       level: new FormControl(level, Validators.required),
       playersNo: new FormControl(playersLimit, Validators.required),
@@ -116,7 +117,11 @@ export class EditGameComponent implements OnInit {
     );
   }
 
-  onSubmit() {
+  async onSubmit() {
+    await this.userLogService.checkSignedUserStatusAndSignTheUnauthorizedOut();
+    const uid = this.userLogService.getAdminUid();
+    if (!uid) { alert('لطفا خارج شده و دوباره وارد سامانه شوید !'); return }
+
     const newGameMissions: ReferenceMission[] = [];
     for (const mission of this.gameForm.get('missions')['controls']) {
       newGameMissions.push(
@@ -128,7 +133,7 @@ export class EditGameComponent implements OnInit {
     }
     const newGame = new Game(
       this.editMode ? this.gameId : null,
-      this.gameForm.value['userId'],
+      uid,
       this.gameForm.value['name'],
       this.gameForm.value['level'],
       this.gameForm.value['playersNo'],
@@ -145,11 +150,11 @@ export class EditGameComponent implements OnInit {
     this.onCancel();
   }
 
-  onSelectOption(id: number, formControlName: string) {
+  onSelectOption(id: string, formControlName: string) {
     const missionAt = (<FormArray>this.gameForm.controls['missions']).controls[
       formControlName
     ];
-    const currMission = this.missionsService.getMission(Number(id));
+    const currMission = this.missionsService.getMission(id);
     missionAt.controls['id'].patchValue(currMission.id);
     missionAt.controls['name'].patchValue(currMission.name);
     missionAt.controls['script'].patchValue(currMission.script);

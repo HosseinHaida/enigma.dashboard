@@ -28,7 +28,7 @@ export class SignupPageComponent implements OnInit {
     });
   }
 
-  onSubmit(form: NgForm | FormGroup) {
+  async onSubmit(form: NgForm | FormGroup) {
     if (!this.signupForm.invalid) {
       const email = form.value.email;
       const password = form.value.password;

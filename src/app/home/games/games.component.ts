@@ -31,7 +31,7 @@ export class GamesComponent implements OnInit {
     private gamesService: GamesService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.games = this.gamesService.getGames();
@@ -66,7 +66,7 @@ export class GamesComponent implements OnInit {
     });
   }
 
-  onGameDelete(id: number) {
+  onGameDelete(id: string) {
     const answer = confirm('Are you sure?');
     if (answer) {
       this.gamesService.deleteGame(id);

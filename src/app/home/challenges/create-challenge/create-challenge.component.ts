@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 // import { Challenge } from 'src/app/shared/models/challenge.model';
 import { ChallengesService } from 'src/app/shared/services/challenges.service';
+import { UserLogService } from 'src/app/shared/services/user-log.service';
 
 @Component({
   selector: 'app-create-challenge',
@@ -21,8 +22,9 @@ export class CreateChallengeComponent implements OnInit {
     private challengesService: ChallengesService,
     private gamesService: GamesService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private userLogService: UserLogService
+  ) { }
 
   ngOnInit() {
     this.games = this.gamesService.getGames();
@@ -47,14 +49,19 @@ export class CreateChallengeComponent implements OnInit {
     });
   }
 
-  onSelectOption(gameId: number) {
-    this.game = this.gamesService.getGame(Number(gameId));
+  onSelectOption(gameId: string) {
+    this.game = this.gamesService.getGame(gameId);
     this.challengeForm.get('gameName').patchValue(this.game.name);
     this.challengeForm.get('gameCity').patchValue(this.game.city);
     this.challengeForm.get('gameRegion').patchValue(this.game.region);
   }
 
-  onSubmit() {
+  async onSubmit() {
+    await this.userLogService.checkSignedUserStatusAndSignTheUnauthorizedOut();
+    const uid = this.userLogService.getAdminUid();
+    if (!uid) { return }
+
+
     const challenge = {
       id: null,
       gameId: this.game.id,

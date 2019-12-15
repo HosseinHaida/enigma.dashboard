@@ -1,5 +1,5 @@
 export class ReferenceMission {
   constructor(
-    public id: number,
-    public order: number) {}
+    public id: string,
+    public order: number) { }
 }
