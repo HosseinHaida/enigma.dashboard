@@ -6,7 +6,7 @@
     >
     </div>
     <div class="user">
-      <span class="welcome"> Welcome </span>
+      <span class="welcome"> ______________ </span>
       <span class="firstName">{{ admin.displayName }}</span>
       <!-- <span class="lastName">{{ admin.lastName }}</span> -->
     </div>
@@ -22,7 +22,7 @@
           class="games-icon"
           [icon]="faGames"
         ></fa-icon>
-        <span>Games</span>
+        <span>بازی ها</span>
       </a>
     </li>
     <li class="missions-li">
@@ -34,7 +34,7 @@
           class="missions-icon"
           [icon]="faMissions"
         ></fa-icon>
-        <span>Missions</span>
+        <span>ماموریت ها</span>
       </a>
     </li>
     <li class="challenges-li">
@@ -46,7 +46,19 @@
           class="challenges-icon"
           [icon]="faChallenges"
         ></fa-icon>
-        <span>Challenges</span>
+        <span>چالش ها</span>
+      </a>
+    </li>
+    <li class="users-li">
+      <a
+        routerLink="users"
+        routerLinkActive="active-link"
+      >
+        <fa-icon
+          class="users-icon"
+          [icon]="faUsers"
+        ></fa-icon>
+        <span>کاربران</span>
       </a>
     </li>
     <!-- <li class="users-li">

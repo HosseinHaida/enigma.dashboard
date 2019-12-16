@@ -54,7 +54,7 @@ export class NavbarsComponent implements OnInit {
   }
 
   onSignOut() {
-    this.userLogService.logout(0);
+    this.userLogService.logout(false);
   }
 
   onSideBarClick() {

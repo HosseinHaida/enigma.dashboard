@@ -117,8 +117,7 @@ export class EditGameComponent implements OnInit {
     );
   }
 
-  async onSubmit() {
-    await this.userLogService.checkSignedUserStatusAndSignTheUnauthorizedOut();
+  onSubmit() {
     const uid = this.userLogService.getAdminUid();
     if (!uid || typeof (uid) === 'undefined') { alert('لطفا خارج شده و دوباره وارد سامانه شوید !'); return }
 

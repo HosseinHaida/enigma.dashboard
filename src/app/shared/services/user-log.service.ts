@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
 
 // Firebase imports
@@ -10,54 +10,50 @@ import { HttpClient } from '@angular/common/http';
 export class UserLogService {
   connection = 'https://enigma-ng.firebaseio.com/admins.json';
   whoIsAdmin = new Subject<Admin>();
-  idToken: string;
   loginStatus = new Subject<string>();
   signupStatus = new Subject<string>();
   adminUid: string;
-  sessionTimeout;
-  timestamp;
 
-  constructor(private router: Router, private afa: AngularFireAuth, private http: HttpClient) {
+  constructor(private router: Router, private afa: AngularFireAuth, private http: HttpClient, private ngZone: NgZone) {
   }
 
-  async checkSignedUserStatusAndSignTheUnauthorizedOut() {
+  checkSignedUserStatusAndSignTheUnauthorizedOut() {
     const thisthis = this;
-    await this.afa.auth.onAuthStateChanged(function (user) {
-      if (user) {
-        try {
-          if (typeof (localStorage.getItem('uid')) !== 'string') {
-            const message = 'Number uid detected !!'
-            throw message;
-          }
-          const uid = atob(localStorage.getItem('uid'))
-          if (user.uid === uid) {
-            // User is signed in.
-            console.log('Granted !!');
-            const admin = {
-              displayName: user.displayName,
-              email: user.email,
-              photoURL: user.photoURL,
-              uid: user.uid
-            }
-            const isAuthenticated = localStorage.getItem('isAuthenticated')
-            thisthis.setAdmin(admin);
-            if (isAuthenticated !== 'true') {
-              window.location.reload();
-            };
-          } else {
-            // Not this user is signed in.
-            console.log('Not this user!');
-            thisthis.logout(0);
-          }
-        } catch {
-          error => {
-            thisthis.logout(0)
-          }
+    this.afa.auth.onAuthStateChanged(user => {
+      // First check if a user is logged in serverside
+      if (!user) {
+        thisthis.clearLocalStorage();
+        thisthis.ngZone.run(() => thisthis.router.navigate(['/login']));
+        return
+      }
+      try {
+        if (typeof (localStorage.getItem('uid')) !== 'string') {
+          throw 'No valid uid detected !!';
         }
-      } else {
-        // No user is signed in.
-        console.log('Not signed in!');
-        thisthis.logout(0);
+        const uid = atob(localStorage.getItem('uid'))
+        if (user.uid === uid) {
+          console.log('Granted !!');
+          const admin = {
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            uid: user.uid
+          }
+          const isAuthenticated = localStorage.getItem('isAuthenticated')
+          thisthis.setAdmin(admin);
+          if (isAuthenticated !== 'true') {
+            window.location.reload();
+          };
+        } else {
+          console.log('Not this user!');
+          thisthis.logout(true);
+          return
+        }
+      } catch {
+        error => {
+          console.log(error)
+          thisthis.logout(false)
+        }
       }
     });
   }
@@ -117,70 +113,21 @@ export class UserLogService {
     return this.adminUid;
   }
 
-  async logout(timeout: number) {
+  async logout(reload: boolean) {
     await this.afa.auth.signOut();
-    clearTimeout(this.sessionTimeout);
-    const thisthis = this;
-    this.sessionTimeout = setTimeout(() => {
-      console.log('logout()!');
-      thisthis.idToken = null;
-      localStorage.setItem('isAuthenticated', 'false');
-      localStorage.removeItem('displayName');
-      localStorage.removeItem('email');
-      localStorage.removeItem('photoURL');
-      localStorage.removeItem('uid');
-      thisthis.router.navigate(['/login']);
-    }, timeout);
+    console.log('logout !!');
+    this.clearLocalStorage();
+    this.router.navigate(['/login']);
+    if (reload === true) {
+      window.location.reload()
+    }
+  }
+
+  clearLocalStorage() {
+    localStorage.setItem('isAuthenticated', 'false');
+    localStorage.removeItem('displayName');
+    localStorage.removeItem('email');
+    localStorage.removeItem('photoURL');
+    localStorage.removeItem('uid');
   }
 }
-
-// interface FirebaseResponse {
-//   email: string;
-//   refreshToken: string;
-//   expiresIn: string;
-//   registered: boolean;
-// }
-
-// getAdmin(email: string) {
-//   const adminsRef = this.db
-//     .list('admins', ref => ref.orderByChild('email').equalTo(email))
-//     .snapshotChanges()
-//     .pipe(
-//       map(changes => {
-//         return changes.map(c => ({ ...c.payload.val() }));
-//       })
-//     );
-//   adminsRef.subscribe((admin: Admin[]) => {
-//     this.whoIsAdmin.next(admin['0']);
-//   });
-// }
-
-// return this.http
-//   .post(
-//     'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDQzg-HPGZMTjU2G4ycrSYh2Kv9JNNFBd4',
-//     {
-//       email: email,
-//       password: password,
-//       returnSecureToken: true
-//     }
-//   )
-//   .subscribe(
-//     (response: FirebaseResponse) => {
-//       this.idToken = response.idToken;
-//       this.loginStatus.next('successful');
-//       // Set auth data in localStorage
-//       this.setAuth(response.idToken, response.expiresIn);
-//       // Call firebase to get me the admin as a subject
-//       this.firebaseStoreService.getAdmin(response.email);
-//       // Auto logout in 1 hour
-//       const timeout = Number(response.expiresIn) * 1000;
-//       this.logout(timeout);
-//       // Navigate to home/games if valid creds
-//       this.router.navigate(['/home/games']);
-//     },
-//     error => {
-//       this.loginStatus.next('failure');
-//       console.log('error logging in!');
-//       console.log(error);
-//     }
-//   );

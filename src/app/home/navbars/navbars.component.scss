@@ -1,7 +1,7 @@
 @import '../../scss/mixins.scss';
 
 * {
-  font-family: Verdana, Geneva, sans-serif;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 nav.top-navbar {
@@ -122,6 +122,13 @@ fa-icon.menu-bars:focus {
   border: none;
 }
 
+.games-li span,
+.missions-li span,
+.challenges-li span,
+.users-li span {
+  float: right; font-family: iranyekan;
+}
+
 @media only screen and (max-width: 900px) {
   .user-properties {
     margin-bottom: 25px;
@@ -134,7 +141,8 @@ fa-icon.menu-bars:focus {
         display: block;
       }
       > .welcome {
-        margin-bottom: 10px;
+        // margin-bottom: 10px;
+        display: none;
       }
       > .lastName {
         margin-left: 0 !important;
@@ -164,6 +172,13 @@ fa-icon.menu-bars:focus {
       }
     }
   }
+  .games-li span,
+  .missions-li span,
+  .challenges-li span,
+  .users-li span {
+    display: none;
+  }
+
 }
 @media only screen and (min-width: 901px) {
   ul.nav-links {
