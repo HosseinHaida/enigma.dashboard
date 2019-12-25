@@ -21,7 +21,7 @@ export class SignupPageComponent implements OnInit {
       email: new FormControl(null, Validators.required),
       password: new FormControl(null, Validators.required),
       phoneNumber: new FormControl(null, Validators.required),
-      photoUrl: new FormControl(null, Validators.required)
+      photoURL: new FormControl(null, Validators.required)
     });
     this.userLogService.signupStatus.subscribe(status => {
       this.signupStatusGifSource = 'assets/' + status + '.gif';
@@ -34,14 +34,15 @@ export class SignupPageComponent implements OnInit {
       const password = form.value.password;
       const displayName = form.value.displayName;
       const phoneNumber = form.value.phoneNumber;
-      const photoUrl = form.value.photoUrl;
+      const photoURL = form.value.photoURL;
       // const helperText = document.getElementsByClassName('helper-text')[0];
       const newAdmin = {
         displayName,
         email,
         password,
         phoneNumber,
-        photoUrl
+        photoURL,
+        role: 'admin'
       };
       this.userLogService.signNewUserUp(newAdmin);
     }

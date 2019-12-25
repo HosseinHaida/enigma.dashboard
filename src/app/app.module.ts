@@ -4,16 +4,19 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-// Seting up Firebase
+//  Seting up Firebase
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
+// import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 //  Resolvers
 import { MissionsResolver } from './shared/resolvers/missions.resolver';
 import { GamesResolver } from './shared/resolvers/games.resolver';
 import { ChallengesResolver } from './shared/resolvers/challenges.resolver';
+
+//  Interceptors
+import { AuthTokenHttpInterceptorProvider } from './shared/interceptors/interceptors/auth-token.interceptor';
 
 //  Components
 import { AppComponent } from './app.component';
@@ -24,6 +27,7 @@ import { CreateChallengeComponent } from './home/challenges/create-challenge/cre
 import { UsersComponent } from './home/users/users.component';
 import { StatisticsComponent } from './home/statistics/statistics.component';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { SignupPageComponent } from './signup-page/signup-page.component';
 import { GamesComponent } from './home/games/games.component';
 import { EditGameComponent } from './home/games/edit-game/edit-game.component';
 import { MissionsComponent } from './home/missions/missions.component';
@@ -37,7 +41,7 @@ import { MissionsService } from './shared/services/missions.service';
 import { GamesService } from './shared/services/games.service';
 import { ChallengesService } from './shared/services/challenges.service';
 
-// Routing
+//  Routing
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
@@ -54,9 +58,8 @@ import { TxtEditorComponent } from './shared/txt-editor/txt-editor.component';
 //  Loading Bar for http requests status
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
-// Jalali calendar date picker
+//  Jalali calendar date picker
 import { DpDatePickerModule } from 'ng2-jalali-date-picker';
-import { SignupPageComponent } from './signup-page/signup-page.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +94,7 @@ import { SignupPageComponent } from './signup-page/signup-page.component';
       environment.firebaseConfig,
       'enigma-ng-app'
     ),
-    AngularFireDatabaseModule,
+    // AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
   providers: [
@@ -103,7 +106,8 @@ import { SignupPageComponent } from './signup-page/signup-page.component';
     ResponsiveDesignService,
     ChallengesResolver,
     MissionsResolver,
-    GamesResolver
+    GamesResolver,
+    AuthTokenHttpInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })

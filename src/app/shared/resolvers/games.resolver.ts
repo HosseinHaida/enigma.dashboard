@@ -8,7 +8,7 @@ import {
 } from '@angular/router';
 
 export class GamesResolver implements Resolve<Game[]> {
-  constructor(private service: GamesService) {}
+  constructor(private service: GamesService) { }
 
   resolve(
     route: ActivatedRouteSnapshot,

@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Subject, Observable } from 'rxjs';
 
@@ -8,22 +8,22 @@ import { GamesService } from './games.service';
 import { Mission } from '../models/mission.model';
 // import { UserLogService } from './user-log.service';
 
-import { AngularFireDatabase } from '@angular/fire/database';
+// import { AngularFireDatabase } from '@angular/fire/database';
 
 @Injectable()
 export class MissionsService {
   // connection = 'http://localhost:3000/missions';
-  connection = 'https://enigma-ng.firebaseio.com/missions.json';
+  // connection = 'https://enigma-ng.firebaseio.com/missions.json';
+  connection = 'https://us-central1-enigma-ng.cloudfunctions.net/api';
   missions: Mission[] = [];
   missionsUpdated = new Subject<Mission[]>();
   mission$: Observable<Mission[]>;
 
   constructor(
     private gamesService: GamesService,
-    // private http: HttpClient,
-    private router: Router,
-    // private userLogService: UserLogService,
-    private db: AngularFireDatabase
+    private http: HttpClient,
+    private router: Router
+    // private db: AngularFireDatabase
   ) { }
 
   pushMissions(missions: Mission[]) {
@@ -32,32 +32,12 @@ export class MissionsService {
   }
 
   getMissionsAPI() {
-    ////////////////////////////
-    const missionsRef = this.db.database.ref('missions');
-    return missionsRef.once('value').then(snapshot => {
-      return Object.keys(snapshot.val()).map(function (missionNamedIndex) {
-        let mission = snapshot.val()[missionNamedIndex];
-        return mission
+    return <Promise<Mission[]>>this.http.get(this.connection + '/missions').toPromise().then((object: { missions, proto }) => {
+      return object.missions
+    },
+      error => {
+        console.log(error)
       });
-    });
-    ////////////////////////////
-    // return this.http
-    //   .get<Mission[]>(this.connection + '?auth=' + this.userLogService.idToken)
-    //   .pipe(
-    //     map(missionsData => {
-    //       return missionsData.map(mission => {
-    //         return {
-    //           id: mission.id,
-    //           level: mission.level,
-    //           name: mission.name,
-    //           photoPath: mission.photoPath,
-    //           slug: mission.slug,
-    //           script: mission.script,
-    //           key: mission.key
-    //         };
-    //       });
-    //     })
-    //   );
   }
 
   getMissions() {
@@ -65,27 +45,17 @@ export class MissionsService {
   }
 
   deleteMission(id: string) {
-    const missionsRef = this.db.database.ref('missions');
-    missionsRef.child(id).remove().then(
-      () => {
-        this.getMissionsAPI().then(missions => {
-          this.missions = missions;
-          this.missionsUpdated.next([...this.missions]);
-          this.gamesService.onMissionDeleted(id);
-        });
-      }
-    ).catch(
+    this.http.delete(this.connection + '/missions/' + id).subscribe(() => {
+      this.getMissionsAPI().then(missions => {
+        this.missions = missions;
+        this.missionsUpdated.next([...this.missions]);
+        this.gamesService.onMissionDeleted(id);
+      });
+    },
       error => {
         console.log('Unable to remove mission !!')
         console.log(error)
-      }
-    );
-    // this.http.delete(this.connection + '/' + id).subscribe(() => {
-    //   const index = this.findMission(id);
-    //   this.missions.splice(index, 1);
-    //   this.missionsUpdated.next([...this.missions]);
-    //   this.gamesService.onMissionDeleted(id);
-    // });
+      });
   }
 
   isEmptyMissions() {
@@ -110,50 +80,43 @@ export class MissionsService {
   addMission(newMission: Mission) {
     const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     newMission.id = id;
-    const missionsRef = this.db.database.ref('missions');
-    missionsRef.child(id).set(newMission).then(
-      () => {
-        this.getMissionsAPI().then(missions => {
-          this.missions = missions;
-          this.missionsUpdated.next([...this.missions]);
-        });
-      }
-    ).catch(
+    this.http.post(this.connection + '/missions', newMission).subscribe(() => {
+      this.getMissionsAPI().then(missions => {
+        this.missions = missions;
+        this.missionsUpdated.next([...this.missions]);
+      });
+    },
       error => {
         console.log('Unable to add new mission !!')
         console.log(error)
-      }
-    );
-    //   this.missions.push(newMission);
-    //   // send a post request
-    //   this.http.post(this.connection, newMission).subscribe(
-    //     () => {
-    //       this.getMissionsAPI().then(missions => {
-    //         this.missions = missions;
-    //         this.missionsUpdated.next([...this.missions]);
-    //       });
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     }
-    //   );
+      })
   }
 
   updateMission(id: string, updatedMission: Mission) {
-    const missionsRef = this.db.database.ref('missions');
-    missionsRef.child(id).set(updatedMission).then(
-      () => {
-        this.getMissionsAPI().then(missions => {
-          this.missions = missions;
-          this.missionsUpdated.next([...this.missions]);
-        });
-      }
-    ).catch(
+    this.http.patch(this.connection + '/missions/' + id, updatedMission).subscribe(() => {
+      this.getMissionsAPI().then(missions => {
+        this.missions = missions;
+        this.missionsUpdated.next([...this.missions]);
+      });
+    },
       error => {
         console.log('Unable to update mission !!')
         console.log(error)
-      }
-    );
+      })
+    // const missionsRef = this.db.database.ref('missions');
+    // missionsRef.child(id).set(updatedMission).then(
+    //   () => {
+    //     this.getMissionsAPI().then(missions => {
+    //       this.missions = missions;
+    //       this.missionsUpdated.next([...this.missions]);
+    //     });
+    //   }
+    // ).catch(
+    //   error => {
+    //     console.log('Unable to update mission !!')
+    //     console.log(error)
+    //   }
+    // );
     //   // send a put request
     //   this.http.put(this.connection + '/' + id, updatedMission).subscribe(
     //     () => {

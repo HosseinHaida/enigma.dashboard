@@ -1,24 +1,29 @@
 import { Router } from '@angular/router';
 import { Injectable, NgZone } from '@angular/core';
 import { Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 // Firebase imports
 import { AngularFireAuth } from '@angular/fire/auth';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class UserLogService {
-  connection = 'https://enigma-ng.firebaseio.com/admins.json';
   whoIsAdmin = new Subject<Admin>();
   loginStatus = new Subject<string>();
   signupStatus = new Subject<string>();
+  connection = 'https://us-central1-enigma-ng.cloudfunctions.net/api';
   adminUid: string;
 
-  constructor(private router: Router, private afa: AngularFireAuth, private http: HttpClient, private ngZone: NgZone) {
-  }
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private ngZone: NgZone,
+    private afa: AngularFireAuth
+  ) { }
 
   checkSignedUserStatusAndSignTheUnauthorizedOut() {
     const thisthis = this;
+    // this.http.get(this.connection + '/users/current').subscribe(( { user, else }) => {
     this.afa.auth.onAuthStateChanged(user => {
       // First check if a user is logged in serverside
       if (!user) {
@@ -69,6 +74,7 @@ export class UserLogService {
 
   async setUserLog(email: string, password: string) {
     this.loginStatus.next('trying');
+    // await this.http.post(this.connection + '/users/login/', { email, password }).subscribe((res: { user, else }) => {
     await this.afa.auth
       .signInWithEmailAndPassword(email, password)
       .then(res => {
@@ -80,8 +86,7 @@ export class UserLogService {
           uid: res.user.uid
         });
         this.router.navigate(['/home/games']);
-      })
-      .catch(error => {
+      }).catch(error => {
         this.loginStatus.next('failure');
         console.log('Can\'t log in!!');
       });
@@ -89,14 +94,13 @@ export class UserLogService {
 
   signNewUserUp(newAdmin: {}) {
     this.signupStatus.next('trying');
-    return this.http.post('http://localhost:8000/api/admin/new', newAdmin).subscribe(res => {
+    return this.http.post(this.connection + '/users', newAdmin).subscribe(res => {
       this.signupStatus.next('successful');
       this.router.navigate(['/home/games']);
     },
       error => {
         this.signupStatus.next('failure')
       });
-    ;
   }
 
   setAdmin(admin: Admin) {
@@ -114,13 +118,19 @@ export class UserLogService {
   }
 
   async logout(reload: boolean) {
-    await this.afa.auth.signOut();
-    console.log('logout !!');
-    this.clearLocalStorage();
-    this.router.navigate(['/login']);
-    if (reload === true) {
-      window.location.reload()
+    try {
+      await this.afa.auth.signOut();
+      // await this.http.get(this.connection + 'users/logout')
+      console.log('logout !!');
+      this.clearLocalStorage();
+      this.router.navigate(['/login']);
+      if (reload === true) {
+        window.location.reload()
+      }
+    } catch (err) {
+      console.log('Error logging out !!')
     }
+
   }
 
   clearLocalStorage() {
