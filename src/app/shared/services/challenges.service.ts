@@ -5,18 +5,15 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 
 import { Challenge } from '../models/challenge.model';
-// import { AngularFireDatabase } from '@angular/fire/database';
 
 @Injectable()
 export class ChallengesService {
-  // connection = 'https://enigma-ng.firebaseio.com/challenges.json';
   connection = 'https://us-central1-enigma-ng.cloudfunctions.net/api';
   private challenges: Challenge[] = [];
   challengesUpdated = new Subject<Challenge[]>();
 
   constructor(
     private router: Router,
-    // private db: AngularFireDatabase,
     private http: HttpClient
   ) { }
 

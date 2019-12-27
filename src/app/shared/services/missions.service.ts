@@ -6,7 +6,6 @@ import { Subject, Observable } from 'rxjs';
 
 import { GamesService } from './games.service';
 import { Mission } from '../models/mission.model';
-// import { UserLogService } from './user-log.service';
 
 // import { AngularFireDatabase } from '@angular/fire/database';
 
@@ -103,32 +102,6 @@ export class MissionsService {
         console.log('Unable to update mission !!')
         console.log(error)
       })
-    // const missionsRef = this.db.database.ref('missions');
-    // missionsRef.child(id).set(updatedMission).then(
-    //   () => {
-    //     this.getMissionsAPI().then(missions => {
-    //       this.missions = missions;
-    //       this.missionsUpdated.next([...this.missions]);
-    //     });
-    //   }
-    // ).catch(
-    //   error => {
-    //     console.log('Unable to update mission !!')
-    //     console.log(error)
-    //   }
-    // );
-    //   // send a put request
-    //   this.http.put(this.connection + '/' + id, updatedMission).subscribe(
-    //     () => {
-    //       this.getMissionsAPI().subscribe(missions => {
-    //         this.missions = missions;
-    //         this.missionsUpdated.next([...this.missions]);
-    //       });
-    //     },
-    //     error => {
-    //       console.log(error);
-    //     }
-    //   );
   }
 
   findMission(id: string): number {

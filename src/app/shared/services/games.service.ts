@@ -5,23 +5,18 @@ import { HttpClient } from '@angular/common/http';
 
 import { Subject } from 'rxjs';
 import { Game } from '../models/game.model';
-// import { UserLogService } from './user-log.service';
 // import { AngularFireDatabase } from '@angular/fire/database';
 
 @Injectable()
 export class GamesService {
   // connection = 'http://localhost:3000/games';
-  // connection = 'https://enigma-ng.firebaseio.com/games.json';
   connection = 'https://us-central1-enigma-ng.cloudfunctions.net/api';
-  // connection = 'http://localhost:5000/enigma-ng/us-central1/api';
   private games: Game[] = [];
   gamesUpdated = new Subject<Game[]>();
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    // private route: ActivatedRoute,
-    // private userLogService: UserLogService,
     // private db: AngularFireDatabase
   ) { }
 
@@ -31,13 +26,6 @@ export class GamesService {
   }
 
   getGamesAPI() {
-    // const gamesRef = this.db.database.ref('games');
-    // return gamesRef.once('value').then(snapshot => {
-    //   return Object.keys(snapshot.val()).map(function (gameNamedIndex) {
-    //     let game = snapshot.val()[gameNamedIndex];
-    //     return game
-    //   });
-    // });
     return <Promise<Game[]>>this.http.get(this.connection + '/games').toPromise().then((object: { games, proto }) => {
       return object.games
     },
@@ -109,12 +97,6 @@ export class GamesService {
     //     console.log(error)
     //   }
     // );
-    //////////////
-    //   this.http.delete(this.connection + '/' + id).subscribe(() => {
-    //     const index = this.findGame(id);
-    //     this.games.splice(index, 1);
-    //     this.gamesUpdated.next([...this.games]);
-    // });
   }
 
   isEmptyGames() {
@@ -126,50 +108,18 @@ export class GamesService {
   }
 
   addGame(newGame: Game) {
-    const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    let id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     newGame.id = id;
-    console.log(newGame);
-    <Promise<any>>this.http.post(this.connection + '/games', newGame).toPromise().then(() => {
+    this.http.post(this.connection + '/games', newGame).subscribe(() => {
       this.getGamesAPI().then(games => {
         this.games = games;
         this.gamesUpdated.next([...this.games]);
       });
     },
       error => {
-        console.log('Unable to add new game !!')
+        console.log('Unable to add game !!')
         console.log(error)
       })
-    // //////
-    // const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    // newGame.id = id;
-    // const gamesRef = this.db.database.ref('games');
-    // gamesRef.child(id).set(newGame).then(
-    //   () => {
-    //     this.getGamesAPI().then(games => {
-    //       this.games = games;
-    //       this.gamesUpdated.next([...this.games]);
-    //     });
-    //   }
-    // ).catch(
-    //   error => {
-    //     console.log('Unable to add new game !!')
-    //     console.log(error)
-    //   }
-    // );
-    // /////////////////////////
-    // this.games.push(newGame);
-    // // send a post request
-    // this.http.post(this.connection, newGame).subscribe(
-    //   () => {
-    //     this.getGamesAPI().subscribe(games => {
-    //       this.games = games;
-    //       this.gamesUpdated.next([...this.games]);
-    //     });
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }
-    // );
   }
 
   updateGame(id: string, updatedGame: Game) {
@@ -183,18 +133,6 @@ export class GamesService {
         console.log('Unable to update game !!')
         console.log(error)
       })
-
-    // this.http.put(this.connection + '/' + id, updatedGame).subscribe(
-    //   () => {
-    //     this.getGamesAPI().subscribe(games => {
-    //       this.games = games;
-    //       this.gamesUpdated.next([...this.games]);
-    //     });
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }
-    // );
   }
 
   getGame(id: string) {

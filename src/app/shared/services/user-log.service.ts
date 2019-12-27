@@ -23,7 +23,6 @@ export class UserLogService {
 
   checkSignedUserStatusAndSignTheUnauthorizedOut() {
     const thisthis = this;
-    // this.http.get(this.connection + '/users/current').subscribe(( { user, else }) => {
     this.afa.auth.onAuthStateChanged(user => {
       // First check if a user is logged in serverside
       if (!user) {
@@ -74,7 +73,6 @@ export class UserLogService {
 
   async setUserLog(email: string, password: string) {
     this.loginStatus.next('trying');
-    // await this.http.post(this.connection + '/users/login/', { email, password }).subscribe((res: { user, else }) => {
     await this.afa.auth
       .signInWithEmailAndPassword(email, password)
       .then(res => {
@@ -120,7 +118,6 @@ export class UserLogService {
   async logout(reload: boolean) {
     try {
       await this.afa.auth.signOut();
-      // await this.http.get(this.connection + 'users/logout')
       console.log('logout !!');
       this.clearLocalStorage();
       this.router.navigate(['/login']);
