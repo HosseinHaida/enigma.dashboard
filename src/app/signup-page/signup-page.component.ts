@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class SignupPageComponent implements OnInit {
   signupForm: FormGroup;
-  private admin: Admin;
   signupStatusGifSource: string = null;
 
   constructor(private userLogService: UserLogService, private router: Router) { }

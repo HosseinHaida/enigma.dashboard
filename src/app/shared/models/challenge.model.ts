@@ -7,6 +7,7 @@ export class Challenge {
     public slug: string,
     public progress: number,
     public isFilled: boolean,
-    public startTime: Date
+    public startTime: Date,
+    public players: Array<{ username: string }>
   ) { }
 }

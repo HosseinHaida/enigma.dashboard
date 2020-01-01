@@ -56,7 +56,7 @@ export class ChallengesService {
     }
   }
 
-  addChallenge(newChallenge) {
+  addChallenge(newChallenge: Challenge) {
     const id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     newChallenge.id = id;
     this.http.post(this.connection + '/challenges', newChallenge).subscribe(() => {
