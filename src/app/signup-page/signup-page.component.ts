@@ -30,18 +30,12 @@ export class SignupPageComponent implements OnInit {
 
   async onSubmit(form: NgForm | FormGroup) {
     if (!this.signupForm.invalid) {
-      const email = form.value.email;
-      const password = form.value.password;
-      const displayName = form.value.displayName;
-      const phoneNumber = form.value.phoneNumber;
-      const photoURL = form.value.photoURL;
-      // const helperText = document.getElementsByClassName('helper-text')[0];
       const newAdmin = {
-        displayName,
-        email,
-        password,
-        phoneNumber,
-        photoURL,
+        displayName: form.value.displayName,
+        email: form.value.email,
+        password: form.value.password,
+        phoneNumber: form.value.phoneNumber,
+        photoURL: form.value.photoURL,
         role: 'admin'
       };
       this.userLogService.signNewUserUp(newAdmin);

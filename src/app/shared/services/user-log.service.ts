@@ -71,7 +71,7 @@ export class UserLogService {
     }
   }
 
-  async setUserLog(email: string, password: string) {
+  async login(email: string, password: string) {
     this.loginStatus.next('trying');
     await this.afa.auth
       .signInWithEmailAndPassword(email, password)

@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private router: Router, private useLogService: UserLogService) { }
+  constructor(private router: Router, private userLogService: UserLogService) { }
   ngOnInit() {
-    this.useLogService.checkSignedUserStatusAndSignTheUnauthorizedOut();
+    this.userLogService.checkSignedUserStatusAndSignTheUnauthorizedOut();
   }
 }

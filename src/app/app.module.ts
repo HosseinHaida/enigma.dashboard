@@ -16,7 +16,7 @@ import { GamesResolver } from './shared/resolvers/games.resolver';
 import { ChallengesResolver } from './shared/resolvers/challenges.resolver';
 
 //  Interceptors
-import { AuthTokenHttpInterceptorProvider } from './shared/interceptors/interceptors/auth-token.interceptor';
+import { AuthTokenHttpInterceptorProvider } from './shared/interceptors/auth-token.interceptor';
 
 //  Components
 import { AppComponent } from './app.component';

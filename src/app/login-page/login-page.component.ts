@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
-  private admin: Admin;
   loginStatusGifSource: string = null;
 
   constructor(private userLogService: UserLogService, private router: Router) { }
@@ -32,7 +31,7 @@ export class LoginPageComponent implements OnInit {
     if (!this.loginForm.invalid) {
       const email = form.value.email;
       const password = form.value.password;
-      this.userLogService.setUserLog(email, password);
+      this.userLogService.login(email, password);
     }
   }
 }
