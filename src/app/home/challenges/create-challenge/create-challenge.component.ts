@@ -69,6 +69,8 @@ export class CreateChallengeComponent implements OnInit {
       progress: 0,
       isFilled: false,
       startTime: '',
+      gamePhotoPath: '',
+      gameName: '',
       players: []
     };
     this.challengesService.addChallenge(challenge);

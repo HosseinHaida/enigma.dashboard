@@ -22,7 +22,7 @@ export class EditGameComponent implements OnInit {
   gameId: string;
   game: Game;
   missions: Mission[];
-  noTagsPipe: NoTagsPipe;
+  noTagsPipe = new NoTagsPipe();
 
   constructor(
     private gamesService: GamesService,
@@ -61,7 +61,6 @@ export class EditGameComponent implements OnInit {
 
     if (this.editMode) {
       // Use the noTagsPipe for each of the missions
-      this.noTagsPipe = new NoTagsPipe();
 
       this.game = this.gamesService.getGame(this.gameId);
       uid = this.game.uid;
@@ -156,7 +155,7 @@ export class EditGameComponent implements OnInit {
     const currMission = this.missionsService.getMission(id);
     missionAt.controls['id'].patchValue(currMission.id);
     missionAt.controls['name'].patchValue(currMission.name);
-    missionAt.controls['script'].patchValue(currMission.script);
+    missionAt.controls['script'].patchValue(this.noTagsPipe.transform(currMission.script));
   }
 
   onMissionDelete(index: number) {
