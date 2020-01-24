@@ -96,4 +96,12 @@ export class ChallengesService {
     }
     return 0;
   }
+
+  setTime(cid: string, timestamp: string) {
+    this.http.post(this.connection + '/challenges/timestamp/' + cid, timestamp).subscribe(() => {
+
+    }, (error) => {
+      console.log(error)
+    })
+  }
 }

@@ -1,7 +1,4 @@
-<div
-  class="form-container"
-  *ngIf="initPermit"
->
+<div *ngIf="initPermit">
   <form
     [formGroup]="gameForm"
     (ngSubmit)="onSubmit()"
@@ -117,19 +114,22 @@
         </div>
       </div>
     </div>
-    <hr />
-    <h4>مأموریت ها</h4>
-    <hr />
+
+    <!--  -->
+    <!--  -->
     <div
       class="missions-container"
       formArrayName="missions"
     >
+      <!-- <hr /> -->
+      <!-- <h4 style="margin: 30px 0 20px 0">مأموریت ها</h4> -->
+      <!-- <hr /> -->
       <div
         class="single-mission-container"
         *ngFor="
-          let missionCtrl of gameForm.get('missions')['controls'];
-          let i = index
-        "
+        let missionCtrl of gameForm.get('missions')['controls'];
+        let i = index
+      "
         [formGroupName]="i"
       >
         <div class="form-control-container">
@@ -168,7 +168,7 @@
               type="text"
               formControlName="script"
             >
-            </textarea>
+          </textarea>
           </div>
         </div>
         <div class="form-control-container">
@@ -211,5 +211,7 @@
         اضافه کردن مأموریت
       </button>
     </div>
+    <!--  -->
+    <!--  -->
   </form>
 </div>

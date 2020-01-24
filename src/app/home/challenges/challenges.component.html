@@ -69,14 +69,21 @@
       <tr>
         <td>
           <button
-            *ngIf="challenge.isFilled"
+            *ngIf="challenge.isFilled && !challenge.startTime"
             class="edit"
             (click)="onChallengeTimeSet(challenge.id)"
           >
             <fa-icon [icon]="faCalendar"></fa-icon>
           </button>
           <button
+            *ngIf="challenge.isFilled && challenge.startTime"
+            class="edit"
+          >
+            <fa-icon [icon]="faLock"></fa-icon>
+          </button>
+          <button
             class="delete"
+            *ngIf="!challenge.startTime"
             (click)="onChallengeDelete(challenge.id)"
           >
             <fa-icon [icon]="faTrash"></fa-icon>

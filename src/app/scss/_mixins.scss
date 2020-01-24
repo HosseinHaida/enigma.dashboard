@@ -5,3 +5,15 @@
   cursor: pointer;
   background-color: $backgroundColor;
 }
+
+@mixin display-flex() {
+  display: flex;
+  display: -moz-flex;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+}
+@mixin flex($flexwidth) {
+  flex: $flexwidth;
+  -moz-flex: $flexwidth;
+  -webkit-flex: $flexwidth;
+}

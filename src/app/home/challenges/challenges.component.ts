@@ -6,7 +6,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   faTrashAlt,
   faImage,
-  faCalendar
+  faCalendar,
+  faLock
 } from '@fortawesome/free-solid-svg-icons';
 import { DatePickerComponent } from 'ng2-jalali-date-picker';
 import * as moment from 'jalali-moment';
@@ -20,11 +21,14 @@ export class ChallengesComponent implements OnInit {
   faTrash = faTrashAlt;
   faImage = faImage;
   faCalendar = faCalendar;
+  faLock = faLock;
 
   datePickerConfig = {
     showTwentyFourHours: true,
     hideOnOutsideClick: false
   };
+
+  cidToBeStarted: string;
 
   challenges: Challenge[];
   tableHeaders: string[] = ['Manage', 'Game', 'Progress', 'Slug', 'Image'];
@@ -71,8 +75,9 @@ export class ChallengesComponent implements OnInit {
     }
   }
 
-  onChallengeTimeSet() {
+  onChallengeTimeSet(cid: string) {
     document.getElementById('overlay').classList.add('show');
+    this.cidToBeStarted = cid;
     this.timePicker.api.open();
   }
   onDatePickerCancel() {
@@ -85,8 +90,8 @@ export class ChallengesComponent implements OnInit {
       if (now > this.userSelectedTime) {
         alert('لطفا زمانی در آینده برای چالش انتخاب کنید.');
       } else {
-        alert('ok !');
-        // this.challengesService.setDate(this.userSelectedTime);
+        const timestamp = this.userSelectedTime.toDate().getTime().toString();
+        this.challengesService.setTime(this.cidToBeStarted, timestamp)
       }
     } else {
       alert('لطفا ابتدا یک زمان انتخاب کنید !');

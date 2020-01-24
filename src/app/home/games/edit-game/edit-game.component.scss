@@ -8,6 +8,43 @@ button {
   color: whitesmoke;
 }
 
+form {
+  margin: 65px 10px 20px -207px;
+  padding: 5px 10px 10px 10px;
+  position: relative;
+  left: 50vw;
+  @include display-flex();
+  max-width: 800px;
+}
+
+.main-body-container {
+  @include flex(1);
+  border: 2px dashed #73879c7c;
+  order: 1;
+  margin-left: 10px;
+}
+.missions-container {
+  @include flex(1);
+  margin-right: 10px;
+  order: 0;
+}
+
 .game-name {
   margin-top: 40px
+}
+
+@media only screen and (max-width: 1024px){
+  form {
+    flex-direction: column;
+    max-width: 400px;
+    > .missions-container {
+      order: 1;
+      margin-right: 0;
+      margin-top: 20px
+    }
+    > .main-body-container {
+      order: 0;
+      margin-left: 0
+    }
+  }
 }
