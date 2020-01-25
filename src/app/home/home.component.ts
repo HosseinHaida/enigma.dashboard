@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
     private missionsService: MissionsService,
     private gamesService: GamesService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     //  Resolve missions and games data

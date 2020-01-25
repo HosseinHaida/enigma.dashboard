@@ -19,7 +19,7 @@ nav.side-navbar {
   z-index: 2;
   display: none;
   height: 100vh;
-  width: 220px;
+  width: 150px;
   background-color: #2a3f54;
 }
 
@@ -28,8 +28,8 @@ nav.side-navbar.shown {
 }
 
 nav.side-navbar.shown + nav.top-navbar {
-  left: 220px;
-  width: calc(100vw - 220px);
+  left: 150px;
+  width: calc(100vw - 150px);
 }
 
 .user-properties {
