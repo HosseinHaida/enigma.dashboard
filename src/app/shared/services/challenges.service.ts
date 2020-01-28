@@ -99,7 +99,7 @@ export class ChallengesService {
 
   setTime(cid: string, timestamp: string) {
     this.http.post(this.connection + '/challenges/timestamp/' + cid, timestamp).subscribe(() => {
-
+      window.location.reload()
     }, (error) => {
       console.log(error)
     })
