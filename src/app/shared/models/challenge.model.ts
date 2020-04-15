@@ -8,6 +8,6 @@ export class Challenge {
     public progress: number,
     public isFilled: boolean,
     public startTime: string,
-    public players: Array<{ username: string }>
+    public players: Array<{ uid: string }>
   ) { }
 }
