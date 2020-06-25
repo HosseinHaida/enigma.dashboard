@@ -1,4 +1,4 @@
-@import '../../scss/mixins.scss';
+@import "../../scss/mixins.scss";
 
 * {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -55,7 +55,7 @@ nav.side-navbar.shown + nav.top-navbar {
     > .welcome {
       color: rgb(167, 167, 167);
       &:after {
-        content: '\A';
+        content: "\A";
         white-space: pre;
       }
     }
@@ -88,8 +88,7 @@ ul.nav-links {
 button.btn-menu-bars {
   padding: 10px 12px;
   font-size: 25px;
-  @include btn(#ededed);
-  border-bottom: 1px solid rgb(216, 216, 216);
+  @include btn(transparent);
 }
 
 button.signout-btn,
@@ -127,7 +126,8 @@ fa-icon.menu-bars:focus {
 .challenges-li span,
 .users-li span,
 .stats-li span {
-  float: right; font-family: iranyekan;
+  float: right;
+  font-family: iranyekan;
 }
 
 @media only screen and (max-width: 900px) {
@@ -168,7 +168,7 @@ fa-icon.menu-bars:focus {
           font-size: 29px;
         }
         fa-icon:after {
-          content: '\A';
+          content: "\A";
         }
       }
     }
@@ -180,7 +180,6 @@ fa-icon.menu-bars:focus {
   .stats-li span {
     display: none;
   }
-
 }
 @media only screen and (min-width: 901px) {
   ul.nav-links {
