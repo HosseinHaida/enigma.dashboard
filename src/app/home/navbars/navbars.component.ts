@@ -1,6 +1,6 @@
-import { ResponsiveDesignService } from '../../shared/services/responsive-design.service';
-import { UserLogService } from '../../shared/services/user-log.service';
-import { Component, OnInit } from '@angular/core';
+import { ResponsiveDesignService } from "../../shared/services/responsive-design.service";
+import { UserLogService } from "../../shared/services/user-log.service";
+import { Component, OnInit } from "@angular/core";
 // import { Subject } from 'rxjs';
 import {
   faBars,
@@ -9,13 +9,15 @@ import {
   faPuzzlePiece,
   faDice,
   faUsers,
-  faChartPie
-} from '@fortawesome/free-solid-svg-icons';
+  faChartPie,
+  faSignOutAlt,
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
-  selector: 'app-navbars',
-  templateUrl: './navbars.component.html',
-  styleUrls: ['./navbars.component.scss']
+  selector: "app-navbars",
+  templateUrl: "./navbars.component.html",
+  styleUrls: ["./navbars.component.scss"],
 })
 export class NavbarsComponent implements OnInit {
   /// icons
@@ -26,13 +28,15 @@ export class NavbarsComponent implements OnInit {
   faChallenges = faDice;
   faUsers = faUsers;
   faStats = faChartPie;
+  faLogout = faSignOutAlt;
+  faUserPlus = faUserPlus;
 
   sideBar: Element;
   admin: Admin = {
-    displayName: '',
-    email: '',
-    photoURL: '',
-    uid: ''
+    displayName: "",
+    email: "",
+    photoURL: "",
+    uid: "",
   };
   toggleSideBar = false;
 
@@ -40,17 +44,17 @@ export class NavbarsComponent implements OnInit {
     private userLogService: UserLogService,
     private responsiveDesignService: ResponsiveDesignService
   ) {
-    this.userLogService.whoIsAdmin.subscribe(admin => {
+    this.userLogService.whoIsAdmin.subscribe((admin) => {
       this.admin = admin;
     });
     if (!this.admin.displayName) {
-      this.admin.displayName = localStorage.getItem('displayName');
-      this.admin.photoURL = localStorage.getItem('photoURL');
+      this.admin.displayName = localStorage.getItem("displayName");
+      this.admin.photoURL = localStorage.getItem("photoURL");
     }
   }
 
   ngOnInit() {
-    this.sideBar = document.getElementsByClassName('side-navbar')[0];
+    this.sideBar = document.getElementsByClassName("side-navbar")[0];
   }
 
   onSignOut() {
@@ -60,9 +64,9 @@ export class NavbarsComponent implements OnInit {
   onSideBarClick() {
     this.toggleSideBar = !this.toggleSideBar;
     if (this.toggleSideBar) {
-      this.sideBar.classList.add('shown');
+      this.sideBar.classList.add("shown");
     } else {
-      this.sideBar.classList.remove('shown');
+      this.sideBar.classList.remove("shown");
     }
     this.responsiveDesignService.onSideBarToggle.next(this.toggleSideBar);
   }

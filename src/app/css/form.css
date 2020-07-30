@@ -32,16 +32,16 @@ h4 + hr {
 label {
   padding: 1px 10px 6px 10px;
   width: 70px;
-  text-align: right;
+  text-align: left;
   background-color: rgb(250, 250, 250);
   color: rgb(109, 109, 109);
   line-height: 1.5em;
   font-size: 14px;
-  float: right;
+  float: left;
 }
 
-input[type='text'],
-input[type='number'],
+input[type="text"],
+input[type="number"],
 textarea {
   border: none;
   border-top: 1px solid rgb(221, 221, 221);
@@ -80,6 +80,12 @@ select {
   border: none;
 }
 
+input[type="text"],
+textarea,
+select {
+  text-align: center;
+}
+
 input,
 textarea,
 select {
@@ -101,8 +107,8 @@ select {
   top: -14px;
 }
 
-input[type='text']:focus + .line,
-input[type='number']:focus + .line,
+input[type="text"]:focus + .line,
+input[type="number"]:focus + .line,
 select:focus + .line,
 textarea:focus + .line {
   width: 100%;
@@ -115,6 +121,9 @@ textarea:focus + .line {
   background-size: cover;
   width: 120px;
   height: 120px;
+  float: right;
+  clear: both;
+  margin-bottom: 5px;
   /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24); */
 }
 
@@ -130,7 +139,7 @@ textarea:focus + .line {
 }
 
 .slider-value {
-  float: left;
+  float: right;
   margin-top: -12px;
   border-bottom: 1px solid rgb(19, 19, 19);
 }
@@ -156,7 +165,7 @@ button.x-button {
 button.edit-mission-button {
   width: 84%;
   color: #35469c;
-  padding: 8px 9px;
+  padding: 10px 9px 7px 9px;
   border: 2px solid #35469c;
 }
 button.edit-mission-button:hover {
@@ -175,6 +184,10 @@ button.save {
   margin: 5px 1% 12px 0;
   border: 2px solid #3cb878;
   color: #3cb878;
+}
+button.save,
+button.cancel {
+  font-weight: bold;
 }
 button.cancel {
   border: 2px solid #e12d39;

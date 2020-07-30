@@ -7,7 +7,9 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 import { DataSnapshot } from '@angular/fire/database/interfaces';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class MissionsResolver implements Resolve<Mission[]> {
   constructor(private service: MissionsService) {}
 

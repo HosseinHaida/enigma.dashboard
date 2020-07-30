@@ -1,5 +1,5 @@
-@import '../../../scss/mixins';
-@import '../../../css/slider.css';
+@import "../../../scss/mixins";
+@import "../../../css/slider.css";
 
 $primary-border: 1.5px solid #73879c7c;
 
@@ -46,11 +46,12 @@ form {
       }
       > label {
         border-left: none;
-        padding: 4px 15px 6px 15px;
+        padding: 4px 15px 2px 15px;
         margin-left: 3px;
         display: block;
         float: right;
         width: 49px !important;
+        text-align: left;
       }
       > .name,
       > .name + label {
@@ -79,12 +80,12 @@ form {
         > button.file-picker {
           height: 31px;
           width: 93px;
-          padding: 7.5px 15px;
+          padding: 4px 15px 4px 15px;
           border-top-left-radius: 0;
           border-bottom-left-radius: 0;
           background-color: #73879c;
         }
-        > input[type='file'] {
+        > input[type="file"] {
           display: none;
         }
       }

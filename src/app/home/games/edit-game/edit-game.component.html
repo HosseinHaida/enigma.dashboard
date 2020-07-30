@@ -1,47 +1,30 @@
 <div *ngIf="initPermit">
-  <form
-    [formGroup]="gameForm"
-    (ngSubmit)="onSubmit()"
-  >
+  <form [formGroup]="gameForm" (ngSubmit)="onSubmit()">
     <div class="main-body-container">
       <div class="save-cancel-container">
-        <button
-          type="submit"
-          class="save"
-          [disabled]="gameForm.invalid"
-        >
-          ذخیره
+        <button type="submit" class="save" [disabled]="gameForm.invalid">
+          Save
         </button>
-        <button
-          type="button"
-          class="cancel"
-          (click)="onCancel()"
-        >لغو</button>
+        <button type="button" class="cancel" (click)="onCancel()">
+          Cancel
+        </button>
       </div>
       <div class="form-control-container game-name">
-        <label for="game-name">نام</label>
+        <label for="game-name">Name</label>
         <div>
-          <input
-            id="game-name"
-            type="text"
-            formControlName="name"
-          />
+          <input id="game-name" type="text" formControlName="name" />
           <div class="line"></div>
         </div>
       </div>
       <div class="form-control-container">
-        <label for="game-level">سطح</label>
+        <label for="game-level">Level</label>
         <div>
-          <input
-            id="game-level"
-            type="range"
-            formControlName="level"
-          />
+          <input id="game-level" type="range" formControlName="level" />
         </div>
-        <span class="slider-value">{{ gameForm.get('level').value }}</span>
+        <span class="slider-value">{{ gameForm.get("level").value }}</span>
       </div>
       <div class="form-control-container">
-        <label for="players-no">بازیکنان</label>
+        <label for="players-no">Players</label>
         <div>
           <input
             id="players-no"
@@ -50,49 +33,33 @@
             formControlName="playersNo"
           />
         </div>
-        <span class="slider-value">{{ gameForm.get('playersNo').value }}</span>
+        <span class="slider-value">{{ gameForm.get("playersNo").value }}</span>
       </div>
       <div class="form-control-container">
-        <label for="city">شهر</label>
+        <label for="city">City</label>
         <div>
-          <input
-            id="city"
-            type="text"
-            formControlName="city"
-          />
+          <input id="city" type="text" formControlName="city" />
           <div class="line"></div>
         </div>
       </div>
       <div class="form-control-container">
-        <label for="region">منطقه</label>
+        <label for="region">Region</label>
         <div>
-          <input
-            id="region"
-            type="text"
-            formControlName="region"
-          />
+          <input id="region" type="text" formControlName="region" />
           <div class="line"></div>
         </div>
       </div>
       <div class="form-control-container">
-        <label for="cost">هزینه</label>
+        <label for="cost">Cost</label>
         <div>
-          <input
-            type="number"
-            id="cost"
-            formControlName="cost"
-          />
+          <input type="number" id="cost" formControlName="cost" />
           <div class="line"></div>
         </div>
       </div>
       <div class="form-control-container">
-        <label for="prize">جایزه</label>
+        <label for="prize">Award</label>
         <div>
-          <input
-            type="number"
-            id="prize"
-            formControlName="prize"
-          />
+          <input type="number" id="prize" formControlName="prize" />
           <div class="line"></div>
         </div>
       </div>
@@ -103,13 +70,9 @@
         }"
       ></div>
       <div class="form-control-container">
-        <label for="photo">تصویر</label>
+        <label for="photo">Photo</label>
         <div>
-          <input
-            id="photo"
-            type="text"
-            formControlName="photoPath"
-          />
+          <input id="photo" type="text" formControlName="photoPath" />
           <div class="line"></div>
         </div>
       </div>
@@ -117,68 +80,49 @@
 
     <!--  -->
     <!--  -->
-    <div
-      class="missions-container"
-      formArrayName="missions"
-    >
+    <div class="missions-container" formArrayName="missions">
       <!-- <hr /> -->
       <!-- <h4 style="margin: 30px 0 20px 0">مأموریت ها</h4> -->
       <!-- <hr /> -->
       <div
         class="single-mission-container"
         *ngFor="
-        let missionCtrl of gameForm.get('missions')['controls'];
-        let i = index
-      "
+          let missionCtrl of gameForm.get('missions')['controls'];
+          let i = index
+        "
         [formGroupName]="i"
       >
         <div class="form-control-container">
-          <select
-            size="1"
-            (change)="onSelectOption($event.target.value, i)"
-          >
-            <option value="default"> -- انتخاب کنید -- </option>
-            <option
-              *ngFor="let mission of missions"
-              value="{{ mission.id }}"
-            >{{ mission.name }}
+          <select size="1" (change)="onSelectOption($event.target.value, i)">
+            <option value="default"> -- Select -- </option>
+            <option *ngFor="let mission of missions" value="{{ mission.id }}"
+              >{{ mission.name }}
             </option>
           </select>
           <div class="line"></div>
         </div>
-        <div id="mission-id"><input
-            type="text"
-            formControlName="id"
-          /></div>
+        <div id="mission-id"><input type="text" formControlName="id" /></div>
         <div class="form-control-container">
-          <label for="mission-name">نام</label>
+          <label for="mission-name">Name</label>
           <div>
-            <input
-              class="mission-name"
-              type="text"
-              formControlName="name"
-            />
+            <input class="mission-name" type="text" formControlName="name" />
           </div>
         </div>
         <div class="form-control-container">
-          <label for="mission-script">متن</label>
+          <label for="mission-script">Script</label>
           <div>
             <textarea
               class="mission-script"
               type="text"
               formControlName="script"
             >
-          </textarea>
+            </textarea>
           </div>
         </div>
         <div class="form-control-container">
-          <label for="mission-order">ترتیب</label>
+          <label for="mission-order">Order</label>
           <div>
-            <input
-              id="mission-order"
-              type="number"
-              formControlName="order"
-            />
+            <input id="mission-order" type="number" formControlName="order" />
             <div class="line"></div>
           </div>
         </div>
@@ -196,7 +140,7 @@
           class="edit-mission-button"
           style="float: left;"
         >
-          ویرایش مأموریت
+          Edit Mission
         </button>
         <br /><br />
       </div>
@@ -207,7 +151,7 @@
         (click)="onMissionAdd()"
         id=""
       >
-        اضافه کردن مأموریت
+        Add Mission
       </button>
     </div>
     <!--  -->

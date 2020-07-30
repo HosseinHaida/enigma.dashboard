@@ -1,10 +1,9 @@
 <nav class="side-navbar">
   <div class="user-properties">
     <div
-      [ngStyle]="{backgroundImage: 'url(' + admin.photoURL + ')'}"
+      [ngStyle]="{ backgroundImage: 'url(' + admin.photoURL + ')' }"
       class="profile-photo"
-    >
-    </div>
+    ></div>
     <div class="user">
       <!-- <span class="welcome"> ______________ </span> -->
       <span class="firstName">{{ admin.displayName }}</span>
@@ -14,63 +13,33 @@
   <hr />
   <ul class="nav-links">
     <li class="games-li">
-      <a
-        routerLink="games"
-        routerLinkActive="active-link"
-      >
-        <fa-icon
-          class="games-icon"
-          [icon]="faGames"
-        ></fa-icon>
-        <span>بازی ها</span>
+      <a routerLink="games" routerLinkActive="active-link">
+        <fa-icon class="games-icon" [icon]="faGames"></fa-icon>
+        <span>Games</span>
       </a>
     </li>
     <li class="missions-li">
-      <a
-        routerLink="missions"
-        routerLinkActive="active-link"
-      >
-        <fa-icon
-          class="missions-icon"
-          [icon]="faMissions"
-        ></fa-icon>
-        <span>ماموریت ها</span>
+      <a routerLink="missions" routerLinkActive="active-link">
+        <fa-icon class="missions-icon" [icon]="faMissions"></fa-icon>
+        <span>Missions</span>
       </a>
     </li>
     <li class="challenges-li">
-      <a
-        routerLink="challenges"
-        routerLinkActive="active-link"
-      >
-        <fa-icon
-          class="challenges-icon"
-          [icon]="faChallenges"
-        ></fa-icon>
-        <span>چالش ها</span>
+      <a routerLink="challenges" routerLinkActive="active-link">
+        <fa-icon class="challenges-icon" [icon]="faChallenges"></fa-icon>
+        <span>Challenges</span>
       </a>
     </li>
     <li class="users-li">
-      <a
-        routerLink="users"
-        routerLinkActive="active-link"
-      >
-        <fa-icon
-          class="users-icon"
-          [icon]="faUsers"
-        ></fa-icon>
-        <span>کاربران</span>
+      <a routerLink="users" routerLinkActive="active-link">
+        <fa-icon class="users-icon" [icon]="faUsers"></fa-icon>
+        <span>Players</span>
       </a>
     </li>
     <li class="stats-li">
-      <a
-        routerLink="stats"
-        routerLinkActive="active-link"
-      >
-        <fa-icon
-          class="stats-icon"
-          [icon]="faStats"
-        ></fa-icon>
-        <span>آمار</span>
+      <a routerLink="stats" routerLinkActive="active-link">
+        <fa-icon class="stats-icon" [icon]="faStats"></fa-icon>
+        <span>Stats</span>
       </a>
     </li>
     <!-- <li class="users-li">
@@ -90,26 +59,14 @@
 
 <nav class="top-navbar">
   <div class="menu-button-container">
-    <button
-      class="btn btn-menu-bars"
-      (click)="onSideBarClick()"
-    >
-      <fa-icon
-        class="menu-bars"
-        [icon]="faBars"
-      ></fa-icon>
+    <button class="btn btn-menu-bars" (click)="onSideBarClick()">
+      <fa-icon class="menu-bars" [icon]="faBars"></fa-icon>
     </button>
-    <button
-      class="btn signout-btn"
-      (click)="onSignOut()"
-    >
-      خروج
+    <button class="btn signout-btn" (click)="onSignOut()">
+      <fa-icon [icon]="faLogout"></fa-icon>
     </button>
-    <button
-      routerLink="/signup"
-      class="btn add-admin-btn"
-    >
-      +
+    <button routerLink="/signup" class="btn add-admin-btn">
+      <fa-icon [icon]="faUserPlus"></fa-icon>
     </button>
   </div>
 </nav>

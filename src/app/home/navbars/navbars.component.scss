@@ -97,19 +97,16 @@ button.add-admin-btn {
   height: 51px;
   border: none;
   width: 60px;
-  font-family: iranyekan;
   cursor: pointer;
   padding-bottom: 6px;
+  background-color: transparent;
+  font-size: 18px;
+  line-height: 3.2rem;
 }
 
 button.signout-btn {
   border-left: 2px solid #2a3f54;
   margin-right: 20px;
-}
-
-button.add-admin-btn {
-  font-size: 30px;
-  line-height: 3.5rem;
 }
 
 fa-icon.menu-bars {
@@ -126,7 +123,6 @@ fa-icon.menu-bars:focus {
 .challenges-li span,
 .users-li span,
 .stats-li span {
-  float: right;
   font-family: iranyekan;
 }
 

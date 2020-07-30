@@ -6,7 +6,9 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot
 } from '@angular/router';
+import { Injectable } from "@angular/core";
 
+@Injectable()
 export class GamesResolver implements Resolve<Game[]> {
   constructor(private service: GamesService) { }
 

@@ -2,7 +2,7 @@
   <form [formGroup]="challengeForm" (ngSubmit)="onSubmit()">
     <div class="form-control-container">
       <select size="1" (change)="onSelectOption($event.target.value)">
-        <option value="default"> -- انتخاب کنید -- </option>
+        <option value="default"> -- Select -- </option>
         <option *ngFor="let game of games" value="{{ game.id }}"
           >{{ game.name }}
         </option>
@@ -11,26 +11,26 @@
     </div>
     <div id="challenge-id"><input type="text" formControlName="id" /></div>
     <div class="form-control-container">
-      <label for="challenge-name">نام چالش</label>
+      <label for="challenge-name">Name</label>
       <div>
         <input class="challenge-name" type="text" formControlName="name" />
         <div class="line"></div>
       </div>
     </div>
     <div class="form-control-container">
-      <label>نام بازی</label>
+      <label>Game Name</label>
       <div>
         <input class="game-name" type="text" formControlName="gameName" />
       </div>
     </div>
     <div class="form-control-container game-city">
-      <label>شهر</label>
+      <label>City</label>
       <div>
         <input class="game-city" type="text" formControlName="gameCity" />
       </div>
     </div>
     <div class="form-control-container game-area">
-      <label>منطقه</label>
+      <label>Region</label>
       <div>
         <input class="game-area" type="text" formControlName="gameRegion" />
       </div>
@@ -38,7 +38,7 @@
     <br /><br /><br />
     <hr />
     <button class="save" type="submit" [disabled]="!challengeForm.valid">
-      ذخیره
+      Save
     </button>
     <button class="cancel" type="button" (click)="onCancel()">لغو</button>
   </form>
