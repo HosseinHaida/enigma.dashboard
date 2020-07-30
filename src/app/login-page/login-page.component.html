@@ -2,35 +2,35 @@
   <div class="login-form-container">
     <div class="login-form">
       <!-- user avatar -->
-      <h2 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">X - - -</h2>
-      <!-- <div class="user-avatar"></div> -->
-      <form
-        [formGroup]="loginForm"
-        (ngSubmit)="onSubmit(loginForm)"
+      <h2
+        style="
+          font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS',
+            sans-serif;
+        "
       >
+        X - - -
+      </h2>
+      <!-- <div class="user-avatar"></div> -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm)">
         <div class="username-container">
           <input
             type="email"
-            tabindex=1
+            tabindex="1"
             formControlName="email"
-            placeholder="پست الکترونیک"
-          >
+            placeholder="Email"
+          />
         </div>
         <div class="password-container">
           <input
             type="password"
-            tabindex=2
+            tabindex="2"
             formControlName="password"
-            placeholder="رمز عبور"
-          >
+            placeholder="Password"
+          />
         </div>
-        <div class="helper-text"> Wrong! </div>
+        <div class="helper-text">Wrong!</div>
         <div class="login-button-container">
-          <button
-            tabindex=3
-            type="submit"
-            class="login-button"
-          >ورود</button>
+          <button tabindex="3" type="submit" class="login-button">Login</button>
         </div>
       </form>
       <img
@@ -38,7 +38,7 @@
         class="login-status-gif"
         [src]="loginStatusGifSource"
         alt=""
-      >
+      />
     </div>
   </div>
 </div>

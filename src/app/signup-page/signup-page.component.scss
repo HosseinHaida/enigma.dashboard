@@ -1,4 +1,4 @@
-@import '../scss/mixins';
+@import "../scss/mixins";
 
 * {
   font-family: iranyekan, Verdana, sans-serif;
@@ -70,6 +70,7 @@ button.cancel-button {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  padding-top: 3px;
 }
 
 button.signup-button:hover,
@@ -92,7 +93,7 @@ input:focus {
   border: 1px solid #35469c;
 }
 
-.ng-touched.ng-invalid:not(form)  {
+.ng-touched.ng-invalid:not(form) {
   border-left: 5px solid #a94442; /* red */
 }
 
