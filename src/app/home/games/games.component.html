@@ -8,13 +8,20 @@
         <td>
           <button class="create-new-button" (click)="onCreateNew()">+</button>
         </td>
-        <td *ngFor="
+        <td
+          *ngFor="
             let tf of tableFilterTypes;
             let whichHeader = index;
             trackBy: trackByIndex
-          ">
+          "
+        >
           <div>
-            <input type="text" class="filter-box" [(ngModel)]="tableFilterTypes[whichHeader]" placeholder="جستجو" />
+            <input
+              type="text"
+              class="filter-box"
+              [(ngModel)]="tableFilterTypes[whichHeader]"
+              placeholder="Filter"
+            />
           </div>
         </td>
         <td>
@@ -23,7 +30,10 @@
       </tr>
     </div>
 
-    <div class="body" *ngFor="let game of (games | filter: tableFilterTypes:arrayItemKeys)">
+    <div
+      class="body"
+      *ngFor="let game of games | filter: tableFilterTypes:arrayItemKeys"
+    >
       <tr>
         <td>
           <button class="edit" (click)="onGameEdit(game.id)">

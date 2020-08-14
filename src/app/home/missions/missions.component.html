@@ -30,14 +30,12 @@
 
     <div
       class="body"
-      *ngFor="
-        let mission of (missions | filter: tableFilterTypes:arrayItemKeys)
-      "
+      *ngFor="let mission of missions | filter: tableFilterTypes:arrayItemKeys"
     >
       <tr>
         <td>
           <button class="edit" (click)="onMissionEdit(mission.id)">
-            <fa-icon [icon]="faEye"></fa-icon>
+            <fa-icon [icon]="faEdit"></fa-icon>
           </button>
           <button class="delete" (click)="onMissionDelete(mission.id)">
             <fa-icon [icon]="faDelete"></fa-icon>

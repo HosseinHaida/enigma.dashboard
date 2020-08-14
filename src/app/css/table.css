@@ -78,8 +78,19 @@ th {
 
 input.filter-box {
   width: 100px;
-  height: 20px;
+  /* height: 20px; */
   padding: 0 6px;
+  text-align: center;
+  min-height: 24px;
+  outline: none;
+  display: block;
+  margin: none;
+  background-color: whitesmoke;
+  color: rgb(19, 19, 19);
+  padding: 4px 5px;
+  width: calc(100% - 10px);
+  border-width: 0;
+  border-bottom-width: 2px;
 }
 
 fa-icon.faImage {
@@ -126,7 +137,7 @@ button.create-new-button {
   padding-bottom: 5px;
   margin: auto;
   font-size: 24px;
-  color: initial;
+  color: white;
 }
 
 button.create-plus-button {
@@ -135,7 +146,7 @@ button.create-plus-button {
   line-height: 0.7em;
   /* padding-bottom: 12px; */
   background-color: #64ce97;
-  color: initial;
+  color: white;
   border-radius: 32.5px;
   -webkit-border-radius: 32.5px;
   -moz-border-radius: 32.5px;
